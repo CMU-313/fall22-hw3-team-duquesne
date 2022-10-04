@@ -6,6 +6,7 @@ package com.sismics.docs.core.dao.dto;
  * @author bgamard 
  */
 public class DocumentDto {
+    
     /**
      * Document ID.
      */
@@ -17,44 +18,20 @@ public class DocumentDto {
     private String fileId;
 
     /**
-     * Title.
+     * Student.
      */
-    private String title;
+    private String student;
     
     /**
-     * Description.
+     * AdditionalNotes.
      */
-    private String description;
+    private String additionalNotes;
     
-    /**
-     * Subject.
-     */
-    private String subject;
     
     /**
      * Identifier.
      */
     private String identifier;
-    
-    /**
-     * Publisher.
-     */
-    private String publisher;
-    
-    /**
-     * Format.
-     */
-    private String format;
-    
-    /**
-     * Source.
-     */
-    private String source;
-    
-    /**
-     * Type.
-     */
-    private String type;
     
     /**
      * Coverage.
@@ -111,6 +88,60 @@ public class DocumentDto {
      */
     private String highlight;
 
+    /**
+     * Birthdate.
+     */
+    private String birthDate;
+
+
+    /**
+     * Gender.
+     */
+    private String gender;
+
+
+    /**
+     * Country.
+     */
+    private String country;
+
+    /**
+     * Race.
+     */
+    private String race;
+
+    /**
+     * Application date.
+     */
+    private String applicationDate;
+
+
+    /**
+     * gradMajor.
+     */
+    private String gradMajor;
+
+    /**
+     * Tags.
+     */
+    private String tags;
+
+    /**
+     * Unergraduate university.
+     */
+    private String undergradUniv;
+
+    /**
+     * Undergrad major.
+     */
+    private String major;
+
+    /**
+     * GPA.
+     */
+    private Float GPA;
+    
+
     public String getId() {
         return id;
     }
@@ -128,28 +159,12 @@ public class DocumentDto {
         return this;
     }
 
-    public String getTitle() {
-        return title;
+    public String getStudent() {
+        return student;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getDescription() {
-        return description;
-    }
-
-    public void setDescription(String description) {
-        this.description = description;
-    }
-
-    public String getSubject() {
-        return subject;
-    }
-
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setStudent(String student) {
+        this.student = student;
     }
 
     public String getIdentifier() {
@@ -158,46 +173,6 @@ public class DocumentDto {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
-    }
-    
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(String coverage) {
-        this.coverage = coverage;
     }
 
     public String getRights() {
@@ -230,6 +205,110 @@ public class DocumentDto {
 
     public void setLanguage(String language) {
         this.language = language;
+    }
+
+     public String getAdditionalNotes() {
+        return additionalNotes;
+    }
+
+    public void setAdditionalNotes(String additionalNotes) {
+        this.additionalNotes = additionalNotes;
+    }
+
+    public String getAddtionalFiles() {
+        return additionalFiles;
+    }
+
+    public void setAdditionalFiles(String additionalFiles) {
+        this.additionalFiles = additionalFiles;
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getBirthdate() {
+        return birthdate;
+    }
+
+    public void setBirthdate(String birthdate) {
+        this.birthdate = birthdate; 
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender; 
+    }
+
+    public String getState() {
+        return state; 
+    }
+
+    public void setState(String state) {
+        this.state = state; 
+    }
+
+    public String getCountry() {
+        return country; 
+    }
+
+    public void setCountry(String country) {
+        this.country = country; 
+    }
+
+    public String getRace() {
+        return race; 
+    }
+
+    public void setApplicationDate(String applicationDate) {
+        this.applicationDate = applicationDate; 
+    }
+
+    public String getApplicationDate() {
+        return applicationDate; 
+    }
+
+    public void setRace(String race) {
+        this.race = race; 
+    }
+
+    public String getGradMajor() {
+        return gradMajor; 
+    }
+
+    public void setGradMajor() {
+        this.gradMajor = gradMajor; 
+    }
+
+    public String getUndergradUniv() {
+        return undergradUniv; 
+    }
+
+    public void setUndergradUniv(String undergradUniv) { 
+        this.undergradUniv = undergradUniv; 
+    }
+
+    public Sring getMajor() {
+        return major; 
+    }
+
+    public void setMajor(String major) {
+        this.major = major; 
+    }
+
+    public Float getGPA() {
+        return gpa; 
+    }
+
+    public void setGPA(String gpa) {
+        this.gpa = gpa; 
     }
 
     public Integer getFileCount() {

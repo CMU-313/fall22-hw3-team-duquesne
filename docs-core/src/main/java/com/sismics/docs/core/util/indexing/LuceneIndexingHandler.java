@@ -284,7 +284,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
             parameterMap.put("createDateMin", criteria.getCreateDateMin());
         }
         if (criteria.getCreateDateMax() != null) {
-            criteriaList.add("d.DOC_CREATEDATE_D <= :createDateMax");
+            criteriaList.add("d.DOC_APPLICATION_DATE_D <= :createDateMax");
             parameterMap.put("createDateMax", criteria.getCreateDateMax());
         }
         if (criteria.getUpdateDateMin() != null) {
@@ -362,7 +362,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
             int i = 0;
             DocumentDto documentDto = new DocumentDto();
             documentDto.setId((String) o[i++]);
-            documentDto.setTitle((String) o[i++]);
+            documentDto.setStudent((String) o[i++]);
             documentDto.setDescription((String) o[i++]);
             documentDto.setCreateTimestamp(((Timestamp) o[i++]).getTime());
             documentDto.setLanguage((String) o[i++]);
