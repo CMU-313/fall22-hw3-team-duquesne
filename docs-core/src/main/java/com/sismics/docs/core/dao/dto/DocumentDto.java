@@ -25,7 +25,7 @@ public class DocumentDto {
     /**
      * AdditionalNotes.
      */
-    private String additionalNotes;
+    private String additional_notes;
     
     
     /**
@@ -116,12 +116,12 @@ public class DocumentDto {
     /**
      * Application date.
      */
-    private String applicationDate;
+    private String creation_date;
 
     /**
      * gradMajor.
      */
-    private String gradMajor;
+    private String desired_program;
 
     /**
      * Tags.
@@ -131,7 +131,7 @@ public class DocumentDto {
     /**
      * Unergraduate university.
      */
-    private String undergradUniv;
+    private String undergrad_univ;
 
     /**
      * Undergrad major.
@@ -273,14 +273,6 @@ public class DocumentDto {
 
     public void setAdditionalNotes(String additionalNotes) {
         this.additionalNotes = additionalNotes;
-    }
-
-    public String getAddtionalFiles() {
-        return additionalFiles;
-    }
-
-    public void setAdditionalFiles(String additionalFiles) {
-        this.additionalFiles = additionalFiles;
     }
 
     public String getTags() {

@@ -167,8 +167,8 @@ public class DocumentResource extends BaseResource {
             
         JsonObjectBuilder document = Json.createObjectBuilder()
                 .add("id", documentDto.getId())
-                .add("name", documentDto.getName())
-                .add("additionalNotes", JsonUtil.nullable(documentDto.getAdditionalNotes()))
+                .add("applicant", documentDto.getName())
+                .add("additional_notes", JsonUtil.nullable(documentDto.getAdditionalNotes()))
                 .add("create_date", documentDto.getCreateTimestamp())
                 .add("update_date", documentDto.getUpdateTimestamp())
                 .add("language", documentDto.getLanguage())
@@ -198,9 +198,14 @@ public class DocumentResource extends BaseResource {
         }
         
         // Below is specific to GET /document/id
-        document.add("undergradUniv", JsonUtil.nullable(documentDto.getUndergradUniv()));
+        document.add("undergrad_univ", JsonUtil.nullable(documentDto.getUndergradUniv()));
         document.add("major", JsonUtil.nullable(documentDto.getMajor()));
         document.add("gpa", JsonUtil.nullable(documentDto.getGPA()));
+        document.add("minor", JsonUtil.nullable(documentDto.getMinor()));
+        document.add("mcat", JsonUtil.nullable(documentDto.getMCAT()));
+        document.add("lsat", JsonUtil.nullable(documentDto.getLSAT()));
+        document.add("gre", JsonUtil.nullable(documentDto.getGRE()));
+        document.add("gmat", JsonUtil.nullable(documentDto.getGMAT()));
 
         // Add ACL
         AclUtil.addAcls(document, documentId, getTargetIdList(shareId));
@@ -344,7 +349,7 @@ public class DocumentResource extends BaseResource {
 
         return Response.ok(stream)
                 .header("Content-Type", MimeType.APPLICATION_PDF)
-                .header("Content-Disposition", "inline; filename=\"" + documentDto.getName() + ".pdf\"")
+                .header("Content-Disposition", "inline; filename=\"" + documentDto.getTitle() + ".pdf\"")
                 .build();
     }
     
@@ -451,8 +456,8 @@ public class DocumentResource extends BaseResource {
                     .add("id", documentDto.getId())
                     .add("highlight", JsonUtil.nullable(documentDto.getHighlight()))
                     .add("file_id", JsonUtil.nullable(documentDto.getFileId()))
-                    .add("name", documentDto.getName())
-                    .add("additionalNotes", JsonUtil.nullable(documentDto.getAddiitonalNotes()))
+                    .add("title", documentDto.getTitle())
+                    .add("description", JsonUtil.nullable(documentDto.getDescription()))
                     .add("create_date", documentDto.getCreateTimestamp())
                     .add("update_date", documentDto.getUpdateTimestamp())
                     .add("language", documentDto.getLanguage())
@@ -650,9 +655,9 @@ public class DocumentResource extends BaseResource {
                     // New fulltext search criteria
                     fullQuery.add(paramValue);
                     break;
-                case "name":
+                case "title":
                     // New title criteria
-                    documentCriteria.setName(paramValue);
+                    documentCriteria.setTitle(paramValue);
                     break;
                 default:
                     fullQuery.add(criteria);
@@ -693,43 +698,40 @@ public class DocumentResource extends BaseResource {
      * @apiPermission user
      * @apiVersion 1.5.0
      *
-     * @param name name
-     * @param additionaNotes additionalNotes
-     * @param birthdate birthdate
-     * @param gender gender
-     * @param state state
-     * @param country country
-     * @param race race
-     * @param applicationDate application date
-     * @param gradMajor desired program
-     * @param additionalFiles additionalFiles
-     * @param tags Tags
-     * @param undergradUniv undergraduate university
-     * @param major undergrad major
-     * @param GPA gpa
+     * @param title Title
+     * @param description Description
+     * @param subject Subject
+     * @param identifier Identifier
+     * @param publisher Publisher
+     * @param format Format
+     * @param source Source
+     * @param type Type
+     * @param coverage Coverage
+     * @param rights Rights
+     * @param tagList Tags
+     * @param relationList Relations
+     * @param metadataIdList Metadata ID list
+     * @param metadataValueList Metadata value list
      * @param language Language
+     * @param createDateStr Creation date
      * @return Response
      */
     @PUT
     public Response add(
-            @FormParam("name") String name,
-            @FormParam("additionalNotes") String additionalNotes,
-            @FormParam("gender") String gender,
-            @FormParam("country") String country,
-            @FormParam("race") String race,
-            @FormParam("email") String email,
-            @FormParam("applicationDate") String applicationDateStr,
-            @FormParam("resume") Document resume,
+            @FormParam("title") String title,
+            @FormParam("description") String description,
+            @FormParam("subject") String subject,
+            @FormParam("identifier") String identifier,
+            @FormParam("publisher") String publisher,
+            @FormParam("format") String format,
+            @FormParam("source") String source,
+            @FormParam("type") String type,
+            @FormParam("coverage") String coverage,
+            @FormParam("rights") String rights,
             @FormParam("tags") List<String> tagList,
-            @FormParam("gradMajor") String gradMajor,
-            @FormParam("undergradUniv") String undergradUniv, 
-            @FormParam("major") String major,
-            @FormParam("minor") String minor,
-            @FormParam("gpa") Float major,
-            @FormParam("MCAT") Int mcat,
-            @FormParam("LSAT") Int lsat,
-            @FormParam("GRE") Int gre,
-            @FormParam("GMAT") Int gmat,
+            @FormParam("relations") List<String> relationList,
+            @FormParam("metadata_id") List<String> metadataIdList,
+            @FormParam("metadata_value") List<String> metadataValueList,
             @FormParam("language") String language,
             @FormParam("create_date") String createDateStr) {
         if (!authenticate()) {
@@ -737,21 +739,21 @@ public class DocumentResource extends BaseResource {
         }
         
         // Validate input data
-        name = ValidationUtil.validateLength(name, "name", 1, 100, false);
+        title = ValidationUtil.validateLength(title, "title", 1, 100, false);
         language = ValidationUtil.validateLength(language, "language", 3, 7, false);
-        additionalNotes = ValidationUtil.validateLength(additionalNotes, "additionalNotes", 0, 4000, true);
-        gender = ValidationUtil.validateLength(gender, "gender", 0, 500, true);
-        country = ValidationUtil.validateLength(country, "country", 0, 500, true);
-        race = ValidationUtil.validateLength(race, "race", 0, 500, true);
-        gradMajor = ValidationUtil.validateLength(gradMajor, "gradMajor", 0, 100, true);
-        additionalFiles = ValidationUtil.validateLength(additionalFiles, "additionalFiles", 0, 100, true);
-        major = ValidationUtil.validateLength(major, "major", 0, 100, true);
-        gpa = ValidationUtil.validateLength(gpa, "gpa", 0, 100, true);
-        Date applicationDate = ValidationUtil.validateDate(applicationDate, "applicationDate", true);
-        if (language != null && !Constants.SUPPORTED_LANGUAGES.contains(language)) {
+        description = ValidationUtil.validateLength(description, "description", 0, 4000, true);
+        subject = ValidationUtil.validateLength(subject, "subject", 0, 500, true);
+        identifier = ValidationUtil.validateLength(identifier, "identifier", 0, 500, true);
+        publisher = ValidationUtil.validateLength(publisher, "publisher", 0, 500, true);
+        format = ValidationUtil.validateLength(format, "format", 0, 500, true);
+        source = ValidationUtil.validateLength(source, "source", 0, 500, true);
+        type = ValidationUtil.validateLength(type, "type", 0, 100, true);
+        coverage = ValidationUtil.validateLength(coverage, "coverage", 0, 100, true);
+        rights = ValidationUtil.validateLength(rights, "rights", 0, 100, true);
+        Date createDate = ValidationUtil.validateDate(createDateStr, "create_date", true);
+        if (!Constants.SUPPORTED_LANGUAGES.contains(language)) {
             throw new ClientException("ValidationError", MessageFormat.format("{0} is not a supported language", language));
         }
-        
 
         // Create the document
         Document document = new Document();
@@ -840,7 +842,7 @@ public class DocumentResource extends BaseResource {
      * @apiPermission user
      * @apiVersion 1.5.0
      *
-     * @param name name
+     * @param title Title
      * @param description Description
      * @return Response
      */
@@ -848,18 +850,18 @@ public class DocumentResource extends BaseResource {
     @Path("{id: [a-z0-9\\-]+}")
     public Response update(
             @PathParam("id") String id,
-            @FormParam("name") String name,
-            @FormParam("additionalNotes") String additionalNotes,
+            @FormParam("applicant") String application,
+            @FormParam("additional_notes") String additional_notes,
             @FormParam("gender") String gender,
             @FormParam("state") String state,
             @FormParam("country") String country,
             @FormParam("race") String race,
             @FormParam("email") String email, 
-            @FormParam("applicationDate") String applicatedDateStr,
+            @FormParam("creation_Date") String creation_dateStr,
             @FormParam("resume") Document resume,
             @FormParam("tags") List<String> tagList,
-            @FormParam("gradMajor") String gradMajor,
-            @FormParam("undergradUniv")String undergradUniv,
+            @FormParam("desired_program") String desired_program,
+            @FormParam("undergrad_univ")String undergrad_univ,
             @FormParam("major") String major,
             @FormParam("minor") String minor,
             @FormParam("gpa") Float gpa,
@@ -873,18 +875,18 @@ public class DocumentResource extends BaseResource {
         }
         
         // Validate input data
-        name = ValidationUtil.validateLength(name, "name", 1, 100, false);
+        applicant = ValidationUtil.validateLength(applicant, "applicant", 1, 100, false);
         language = ValidationUtil.validateLength(language, "language", 3, 7, false);
-        additionalNotes = ValidationUtil.validateLength(additionalNotes, "additionalNotes", 0, 4000, true);
+        additional_notes = ValidationUtil.validateLength(additional_notes, "additional_notes", 0, 4000, true);
         gender = ValidationUtil.validateLength(gender, "gender", 0, 500, true);
         state = ValidationUtil.validateLength(state, "state", 0, 500, true);
         country = ValidationUtil.validateLength(country, "country", 0, 500, true);
         race = ValidationUtil.validateLength(race, "race", 0, 500, true);
-        gradMajor = ValidationUtil.validateLength(gradMajor, "gradMajor", 0, 100, true);
-        undergradUniv = ValidationUtil.validateLength(undergradUniv, "undergradUniv", 0, 100, true);
+        desired_program = ValidationUtil.validateLength(desired_program, "desired_program", 0, 100, true);
+        undergrad_univ = ValidationUtil.validateLength(undergrad_univ, "undergrad_univ", 0, 100, true);
         major = ValidationUtil.validateLength(major, "major", 0, 100, true);
         gpa = ValidationUtil.validateLength(gpa, "gpa", 0, 100, true);
-        Date applicationDate = ValidationUtil.validateDate(applicationDate, "applicationDate", true);
+        Date creation_date = ValidationUtil.validateDate(creation_date, "creation_date", true);
         if (language != null && !Constants.SUPPORTED_LANGUAGES.contains(language)) {
             throw new ClientException("ValidationError", MessageFormat.format("{0} is not a supported language", language));
         }
@@ -903,15 +905,15 @@ public class DocumentResource extends BaseResource {
         }
         
         // Update the document
-        document.setName(student);
-        document.setAdditionalNotes(additionalNotes);
+        document.setName(applicant);
+        document.setAdditionalNotes(additional_notes);
         document.setGender(gender);
         document.setCountry(country);
         document.setRace(race);
         document.setEmail(email);
         document.setResume(resume);
         document.setTags(tags);
-        if (createDate == null) {
+        if (creation_date == null) {
             document.setApplicationDate(new Date());
         } else {
             document.setApplicationDate(applicationDate);

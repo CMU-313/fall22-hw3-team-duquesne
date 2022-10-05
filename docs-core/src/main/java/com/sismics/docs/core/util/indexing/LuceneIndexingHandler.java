@@ -492,9 +492,6 @@ public class LuceneIndexingHandler implements IndexingHandler {
         luceneDocument.add(new StringField("id", document.getId(), Field.Store.YES));
         luceneDocument.add(new StringField("doctype", "document", Field.Store.YES));
         luceneDocument.add(new TextField("name", document.getName(), Field.Store.NO));
-        if (document.getAdditionalFiles() != null) {
-            luceneDocument.add(new TextField("additionalNotes", document.getAdditionalNotes(), Field.Store.NO));
-        }
         if (document.getGradMajor() != null) {
             luceneDocument.add(new TextField("gradMajor", document.getGradMajor(), Field.Store.NO));
         }
