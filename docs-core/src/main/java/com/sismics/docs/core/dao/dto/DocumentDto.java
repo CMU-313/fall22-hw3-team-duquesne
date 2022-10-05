@@ -210,7 +210,6 @@ public class DocumentDto {
 
     public void setDocument(Document document) {
         this.document = document;
-    }
 
     public String getIdentifier() {
         return identifier;
@@ -220,6 +219,23 @@ public class DocumentDto {
         this.identifier = identifier;
     }
 
+    public String getRights() {
+        return rights;
+    }
+
+    public void setRights(String rights) {
+        this.rights = rights;
+    }
+
+    public Long getCreateTimestamp() {
+        return createTimestamp;
+    }
+
+    public void setCreateTimestamp(Long createTimestamp) {
+        this.createTimestamp = createTimestamp;
+    }
+
+<<<<<<< HEAD
     public String getRights() {
         return rights;
     }
@@ -290,6 +306,7 @@ public class DocumentDto {
     public void setCountry(String country) {
         this.country = country; 
     }
+
 
     public String getRace() {
         return race; 
@@ -377,6 +394,7 @@ public class DocumentDto {
 
     public void setGMAT(Int gmat) {
         this.gmat = gmat;
+
     }
 
     public Integer getFileCount() {

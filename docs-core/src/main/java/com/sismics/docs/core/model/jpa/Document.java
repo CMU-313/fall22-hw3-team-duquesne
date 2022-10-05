@@ -199,6 +199,7 @@ public class Document implements Loggable {
 
     public void setName(String name) {
         this.name = name;
+
     }
 
     public String getAdditionalNotes() {
@@ -208,7 +209,6 @@ public class Document implements Loggable {
     public void setAdditionalNotes(String additionalNotes) {
         this.additionalNotes = additionalNotes;
     }
-
 
     public String getGender() {
         return gender;
@@ -357,7 +357,7 @@ public class Document implements Loggable {
     public String getShared() {
         return shared;
     }
-
+ 
     public void setShared(String shared) {
         this.shared = shared;
     }
