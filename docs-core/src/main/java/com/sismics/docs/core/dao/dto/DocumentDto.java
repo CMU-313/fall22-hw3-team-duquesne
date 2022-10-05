@@ -146,7 +146,7 @@ public class DocumentDto {
     /**
      * GPA.
      */
-    private Float GPA;
+    private Float gpa;
 
     /**
      * MCAT .
@@ -166,7 +166,7 @@ public class DocumentDto {
     /**
      * GMAT.
      */
-    private Int GMAT;
+    private Int gmat;
     
 
     public String getId() {
@@ -235,7 +235,6 @@ public class DocumentDto {
         this.createTimestamp = createTimestamp;
     }
 
-<<<<<<< HEAD
     public String getRights() {
         return rights;
     }

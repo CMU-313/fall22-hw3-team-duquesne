@@ -50,7 +50,7 @@ public class Document implements Loggable {
     /**
      * Additional notes.
      */
-    @Column(name = "DOC_ADDITIONALNOTES_C", length = 4000)
+    @Column(name = "DOC_ADDITIONAL_NOTES_C", length = 4000)
     private String additionalNotes;
 
     /**
@@ -96,7 +96,7 @@ public class Document implements Loggable {
     private Date applicationDate; 
 
     /**
-    * Application Date.
+    * Resume.
     */
     @Column(name = "DOC_RESUME_C", nullalbe = false, length = 100)
     private Document resume; 
@@ -163,7 +163,7 @@ public class Document implements Loggable {
 
 
     /**
-     * Major. 
+     * shared. 
      */
     @Column(name = "DOC_SHARED_C", length = 100)
     private String shared; 
