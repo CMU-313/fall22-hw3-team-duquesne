@@ -3,12 +3,12 @@
 <div ng-show="document || !isEdit()">
   <form name="documentForm" class="form-horizontal">
     <div class="pull-right btn-group" ng-init="form = documentForm">
-      <button type="submit" class="btn btn-primary" ng-disabled="!documentForm.$valid || fileIsUploading" ng-click="edit()">
+      <button type="submit" class="btn btn-primary" ng-disabled="fileIsUploading" ng-click="edit()">
         <span class="fas fa-save"></span>
         {{ 'save' | translate }}
       </button>
     </div>
-    <h1 class="page-header">{{ document.title }}&nbsp;</h1>
+    <h1 class="page-header">{{document.applicant && (document.applicant + "'s application")}}</h1>
 
     <div uib-alert ng-class="'alert-' + alert.type" ng-repeat="alert in alerts" type="alert.type" close="closeAlert($index)">{{ alert.msg }}</div>
 
@@ -18,53 +18,86 @@
     </div>
 
     <fieldset>
-      <legend>{{ 'document.edit.primary_metadata' | translate }}</legend>
-      <div class="form-group" ng-class="{ 'has-error': !documentForm.title.$valid && documentForm.$dirty }">
-        <label class="col-sm-2 control-label" for="inputTitle">{{ 'document.title' | translate }}</label>
+      <legend>{{ 'document.edit.student_data' | translate }}</legend>
+      <div class="form-group" ng-class="{ 'has-error': !documentForm.Name.$valid && documentForm.$dirty }">
+        <label class="col-sm-2 control-label" for="inputApplicant">{{ 'document.applicant' | translate }}</label>
         <div class="col-sm-10">
-          <input required ng-maxlength="100" class="form-control" type="text" id="inputTitle"
-            ng-attr-placeholder="{{ 'document.edit.title_placeholder' | translate }}" name="title" ng-model="document.title" autocomplete="off"
+          <input required ng-maxlength="100" class="form-control" type="text" id="inputApplicant"
+            ng-attr-placeholder="{{ 'document.edit.applicant_placeholder' | translate }}"
+            name="Name" ng-model="document.applicant" autocomplete="off"
             uib-typeahead="document for document in getTitleTypeahead($viewValue)"
             typeahead-wait-ms="200" ng-disabled="fileIsUploading" />
         </div>
       </div>
-      <div class="form-group" ng-class="{ 'has-error': !documentForm.description.$valid }">
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="inputGender">{{ 'document.gender' | translate }}</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="inputGender" ng-model="document.gender" ng-disabled="fileIsUploading">
+            <option ng-repeat="gender in acceptedGenders" value="{{ gender.key }}">{{ gender.label }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="inputRace">{{ 'document.race' | translate }}</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="inputRace" ng-model="document.race" ng-disabled="fileIsUploading">
+            <option ng-repeat="language in acceptedRaces" value="{{ race.key }}">{{ race.label }}</option>
+          </select>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="inputCountry">{{ 'document.country' | translate }}</label>
+        <div class="col-sm-10">
+          <select class="form-control" id="inputCountry" ng-model="document.gender" ng-disabled="fileIsUploading">
+            <option ng-repeat="country in acceptedCountries" value="{{ country.key }}">{{ country.label }}</option>
+          </select>
+        </div>
+      </div>
+      <!-- <div class="form-group" ng-class="{ 'has-error': !documentForm.description.$valid }">
         <label class="col-sm-2 control-label" for="inputDescription">{{ 'document.description' | translate }}</label>
         <div class="col-sm-10">
-          <pell-editor name="description" id="inputDescription"
+          <pell-editor required name="description" id="inputDescription"
                        ng-maxlength="4000" ng-model="document.description" ng-disabled="fileIsUploading"></pell-editor>
           <p class="help-block" ng-show="documentForm.description.$error.maxlength && documentForm.$dirty">{{ 'validation.too_long' | translate }}</p>
         </div>
+      </div> -->
+      <div class="form-group" ng-class="{ 'has-error': !documentForm.Email.$valid && documentForm.$submitted}">
+        <label class="col-sm-2 control-label" for="inputEmail">{{ 'document.email' | translate }}</label>
+        <div class="col-sm-10">
+          <input required ng-maxlength="100" class="form-control" type="email" id="inputEmail"
+            ng-attr-placeholder="{{ 'document.edit.email_placeholder' | translate }}"
+            name="Email" ng-model="document.email" autocomplete="off" ng-disabled="fileIsUploading"/>
+        </div>
       </div>
-      <div class="form-group" ng-class="{ 'has-error': !documentForm.createDate.$valid }">
+      <div class="form-group" ng-class="{ 'has-error': !documentForm.applicationDate.$valid && documentForm.$submitted}">
         <label class="col-sm-2 control-label" for="inputCreateDate">{{ 'document.creation_date' | translate }}</label>
         <div class="col-sm-10">
-          <div class="input-group">
-            <input type="text" id="inputCreateDate" name="createDate"
+          <!-- <div class="input-group"> -->
+            <input required type="date" id="inputCreateDate" name="applicationDate"
                    current-text="{{ 'directive.datepicker.current' | translate }}"
                    clear-text="{{ 'directive.datepicker.clear' | translate }}"
                    close-text="{{ 'directive.datepicker.close' | translate }}"
                    uib-datepicker-popup="{{ dateFormat }}" class="form-control"
-                   ng-model="document.create_date" datepicker-options="{ startingDay: 1, showWeeks: false }"
+                   ng-model="document.creation_date" datepicker-options="{ startingDay: 1, showWeeks: false }"
                    is-open="datepickerOpened" ng-disabled="fileIsUploading" />
-            <span class="input-group-btn">
+            <!-- <span class="input-group-btn">
               <button type="button" class="btn btn-default" ng-click="datepickerOpened = true" ng-disabled="fileIsUploading"><i class="fas fa-calendar"></i></button>
-            </span>
-          </div>
+            </span> -->
+          <!-- </div> -->
         </div>
       </div>
-      <div class="form-group">
+      <!-- <div class="form-group">
         <label class="col-sm-2 control-label" for="inputLanguage">{{ 'document.language' | translate }}</label>
         <div class="col-sm-10">
           <select class="form-control" id="inputLanguage" ng-model="document.language" ng-disabled="fileIsUploading">
             <option ng-repeat="language in acceptedLanguages" value="{{ language.key }}">{{ language.label }}</option>
           </select>
         </div>
-      </div>
-      <div class="form-group">
-        <label class="col-sm-2 control-label" for="inputFiles">{{ 'document.edit.new_files' | translate }}</label>
+      </div> -->
+      <div class="form-group" ng-class="{ 'has-error': !documentForm.Resume.$valid && documentForm.$submitted }">
+        <label class="col-sm-2 control-label" for="inputResume">{{ 'document.resume' | translate }}</label>
         <div class="col-sm-10">
-          <input type="file" ngf-select class="form-control" id="inputFiles" ngf-multiple="true" ng-model="newFiles" ng-disabled="fileIsUploading"></input>
+          <input required type="file" name="Resume" ngf-select class="form-control" id="inputFiles" ngf-multiple="true" ng-model="newFiles" ng-disabled="fileIsUploading"></input>
         </div>
         <div class="col-sm-4" ng-if="orphanFiles.length > 0"
              translate="document.edit.orphan_files"
@@ -75,6 +108,14 @@
         <label class="col-sm-2 control-label" for="inputTags">{{ 'document.tags' | translate }}</label>
         <div class="col-sm-10">
           <select-tag tags="document.tags" ref="inputTags" ng-disabled="fileIsUploading"></select-tag>
+        </div>
+      </div>
+      <div class="form-group">
+        <label class="col-sm-2 control-label" for="inputAdditionalNotes">{{ 'document.additional_notes' | translate }}</label>
+        <div class="col-sm-10">
+          <pell-editor name="additionalNotes" id="inputDescription"
+                       ng-maxlength="4000" ng-model="document.additional_notes" ng-disabled="fileIsUploading"></pell-editor>
+          <p class="help-block" ng-show="documentForm.description.$error.maxlength && documentForm.$dirty">{{ 'validation.too_long' | translate }}</p>
         </div>
       </div>
 
@@ -121,18 +162,103 @@
 
     <fieldset ng-init="additionalMetadataCollapsed = true">
       <legend class="pointer" ng-click="additionalMetadataCollapsed = !additionalMetadataCollapsed">
-        {{ 'document.edit.additional_metadata' | translate }}
+        {{ 'document.edit.academic_history' | translate }}
         <span class="pull-right fas fa-plus"></span>
       </legend>
       <div ng-show="!additionalMetadataCollapsed">
-        <div class="form-group" ng-class="{ 'has-error': !documentForm.subject.$valid }">
-          <label class="col-sm-2 control-label" for="inputSubject">{{ 'document.subject' | translate }}</label>
+        <div class="form-group" ng-class="{ 'has-error': !documentForm.DesiredProgram.$valid && documentForm.$submitted}">
+          <label class="col-sm-2 control-label" for="inputDesiredProgram">{{ 'document.desired_program' | translate }}</label>
           <div class="col-sm-10">
-            <input ng-maxlength="500" class="form-control" type="text" id="inputSubject"
-                   ng-attr-placeholder="{{ 'document.edit.subject_placeholder' | translate }}" name="subject" ng-model="document.subject" ng-disabled="fileIsUploading" />
+            <select required class="form-control" id="inputDesiredProgram" name="DesiredProgram" ng-model="document.desired_program" ng-disabled="fileIsUploading">
+              <option>Master of Science in Automated Science: Biological Experimentation</option>
+              <option>Master of Science in Computational Biology</option>
+              <option>Fifth Year Master's in Computer Science</option>
+              <option>Master of Science in Computer Science</option>
+              <option>Accelerated Master of Human-Computer Interaction</option>
+              <option>Master of Educational Technology and Applied Learning Science (METALS)</option>
+              <option>Master of Human-Computer Interaction</option>
+              <option>Master of Science in Product Management</option>
+              <option>Master of Science in Information Technology - Privacy Engineering</option>
+              <option>Master of Software Engineering</option>
+              <option>Master of Software Engineering - Embedded Systems</option>
+              <option>Master of Software Engineering - Scalable Systems</option>
+              <option>Master of Software Engineering Online</option>
+            </select>
           </div>
         </div>
-        <div class="form-group" ng-class="{ 'has-error': !documentForm.identifier.$valid }">
+        <div class="form-group" ng-class="{ 'has-error': !documentForm.Undergrad.$valid && documentForm.$submitted}">
+          <label class="col-sm-2 control-label" for="inputUndergradUniv">{{ 'document.undergrad_univ' | translate }}</label>
+            <div class="col-sm-10">
+              <select required class="form-control" id="inputDesiredProgram" name="Undergrad" ng-model="document.undergrad_univ" ng-disabled="fileIsUploading">
+                <option>Carnegie Mellon University</option>
+                <option>Central Michigan University</option>
+                <option>Carnegie Mellon University</option>
+                <option>Central Methodist University</option>
+                <option>Colorado Mesa University</option>
+              </select>
+            </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': !documentForm.Major.$valid && documentForm.$submitted}">
+          <label class="col-sm-2 control-label" for="inputMajor">{{ 'document.major' | translate }}</label>
+          <div class="col-sm-10">
+            <select required class="form-control" id="inputMajor" name="Major" ng-model="document.major" ng-disabled="fileIsUploading">
+              <option>Computer Science</option>
+              <option>Electrical and Computer Engineering</option>
+              <option>Information Systems</option>
+              <option>Human Computer Interactions</option>
+              <option>Mathematics</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="inputMinor">{{ 'document.minor' | translate }}</label>
+          <div class="col-sm-10">
+            <select class="form-control" id="inputMinor" name="Minor" ng-model="document.minor" ng-disabled="fileIsUploading">
+              <option>Computer Science</option>
+              <option>Electrical and Computer Engineering</option>
+              <option>Information Systems</option>
+              <option>Human Computer Interactions</option>
+              <option>Mathematics</option>
+            </select>
+          </div>
+        </div>
+        <div class="form-group" ng-class="{ 'has-error': !documentForm.GPA.$valid && documentForm.$submitted}">
+          <label class="col-sm-2 control-label" for="inputGPA">{{ 'document.gpa' | translate }}</label>
+          <div class="col-sm-10">
+            <input required ng-maxlength="10" class="form-control" type="number" step="0.01" id="inputGPA"
+                    ng-attr-placeholder="{{ 'document.edit.gpa_placeholder' | translate }}" name="GPA" ng-model="document.gpa" ng-disabled="fileIsUploading" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="inputMCAT">{{ 'document.mcat' | translate }}</label>
+          <div class="col-sm-10">
+            <input ng-maxlength="10" class="form-control" type="number" id="inputMCAT"
+                    ng-attr-placeholder="{{ 'document.edit.mcat_placeholder' | translate }}" name="MCAT" ng-model="document.mcat" ng-disabled="fileIsUploading" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="inputLSAT">{{ 'document.lsat' | translate }}</label>
+          <div class="col-sm-10">
+            <input ng-maxlength="10" class="form-control" type="number" id="inputLSAT"
+                    ng-attr-placeholder="{{ 'document.edit.lsat_placeholder' | translate }}" name="LSAT" ng-model="document.lsat" ng-disabled="fileIsUploading" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="inputGRE">{{ 'document.gre' | translate }}</label>
+          <div class="col-sm-10">
+            <input ng-maxlength="10" class="form-control" type="number" id="inputGRE"
+                    ng-attr-placeholder="{{ 'document.edit.gre_placeholder' | translate }}" name="GRE" ng-model="document.gre" ng-disabled="fileIsUploading" />
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-2 control-label" for="inputGMAT">{{ 'document.gmat' | translate }}</label>
+          <div class="col-sm-10">
+            <input ng-maxlength="10" class="form-control" type="number" id="inputGMAT"
+                    ng-attr-placeholder="{{ 'document.edit.gmat_placeholder' | translate }}" name="GMAT" ng-model="document.gmat" ng-disabled="fileIsUploading" />
+          </div>
+        </div>
+          
+        <!-- <div class="form-group" ng-class="{ 'has-error': !documentForm.identifier.$valid }">
           <label class="col-sm-2 control-label" for="inputIdentifier">{{ 'document.identifier' | translate }}</label>
           <div class="col-sm-10">
             <input ng-maxlength="500" class="form-control" type="text" id="inputIdentifier"
@@ -193,13 +319,13 @@
           <div class="col-sm-10">
             <select-relation id="document.id" relations="document.relations" ref="inputRelations" ng-disabled="fileIsUploading"></select-relation>
           </div>
-        </div>
+        </div> -->
       </div>
     </fieldset>
 
     <div class="form-group">
       <div class="col-sm-offset-2 col-sm-10">
-        <button type="submit" class="btn btn-primary" ng-disabled="!documentForm.$valid || fileIsUploading" ng-click="edit()">
+        <button type="submit" class="btn btn-primary" ng-disabled="fileIsUploading" ng-click="edit()">
           <span class="fas fa-save"></span>
           {{ 'save' | translate }}
         </button>
