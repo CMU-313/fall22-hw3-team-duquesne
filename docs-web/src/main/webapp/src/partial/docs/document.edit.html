@@ -41,7 +41,7 @@
         <label class="col-sm-2 control-label" for="inputRace">{{ 'document.race' | translate }}</label>
         <div class="col-sm-10">
           <select class="form-control" id="inputRace" ng-model="document.race" ng-disabled="fileIsUploading">
-            <option ng-repeat="language in acceptedRaces" value="{{ race.key }}">{{ race.label }}</option>
+            <option ng-repeat="race in acceptedRaces" value="{{ race.key }}">{{ race.label }}</option>
           </select>
         </div>
       </div>
