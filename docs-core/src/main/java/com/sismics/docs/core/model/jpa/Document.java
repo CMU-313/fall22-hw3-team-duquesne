@@ -45,7 +45,7 @@ public class Document implements Loggable {
      * Name
      */
     @Column(name = "DOC_NAME_C", nullable = false, length = 100)
-    private String name; 
+    private String applicant; 
     
     /**
      * Additional notes.
@@ -111,7 +111,7 @@ public class Document implements Loggable {
      * Major. 
      */
     @Column(name = "DOC_GRADMAJOR_C", nullable = false, length = 100)
-    private String major; 
+    private String desired_program; 
 
     /**
      * Undergraduate university. 
@@ -194,11 +194,11 @@ public class Document implements Loggable {
     }
 
     public String getName() {
-        return name;
+        return applicant;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String applicant) {
+        this.applicant = applicant;
 
     }
 
@@ -242,12 +242,12 @@ public class Document implements Loggable {
         this.email = email; 
     }
 
-    public void setApplicationDate(Date applicationDate) {
-        this.applicationDate = applicationDate; 
+    public void setApplicationDate(Date creation_date) {
+        this.creation_date = creation_date; 
     }
 
     public Date getApplicationDate() {
-        return applicationDate; 
+        return creation_date; 
     }
 
     public Document getResume() {
@@ -267,19 +267,19 @@ public class Document implements Loggable {
     }
 
     public String getGradMajor() {
-        return gradMajor; 
+        return desired_program; 
     }
 
-    public void setGradMajor(String gradMajor) {
-        this.gradMajor = gradMajor; 
+    public void setGradMajor(String desired_program) {
+        this.desired_program = desired_program; 
     }
 
     public String getUndergradUniv() {
-        return undergradUniv; 
+        return undergrad_univ; 
     }
 
-    public void setUndergradUniv(String undergradUniv) { 
-        this.undergradUniv = undergradUniv; 
+    public void setUndergradUniv(String undergrad_univ) { 
+        this.undergrad_univ = undergrad_univ; 
     }
 
     public Sring getMajor() {

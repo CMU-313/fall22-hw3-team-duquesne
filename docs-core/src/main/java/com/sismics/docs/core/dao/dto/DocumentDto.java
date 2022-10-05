@@ -187,11 +187,11 @@ public class DocumentDto {
     }
 
     public String getName() {
-        return name;
+        return applicant;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setName(String applicant) {
+        this.applicant = applicant;
     }
 
 
@@ -311,12 +311,12 @@ public class DocumentDto {
         return race; 
     }
 
-    public void setApplicationDate(String applicationDate) {
-        this.applicationDate = applicationDate; 
+    public void setApplicationDate(String creation_date) {
+        this.creation_date = creation_date; 
     }
 
     public String getApplicationDate() {
-        return applicationDate; 
+        return creation_date; 
     }
 
     public void setRace(String race) {
@@ -324,19 +324,19 @@ public class DocumentDto {
     }
 
     public String getGradMajor() {
-        return gradMajor; 
+        return desired_program; 
     }
 
-    public void setGradMajor() {
-        this.gradMajor = gradMajor; 
+    public void setGradMajor(String desired_program) {
+        this.desired_program = desired_program; 
     }
 
     public String getUndergradUniv() {
-        return undergradUniv; 
+        return undergrad_univ; 
     }
 
-    public void setUndergradUniv(String undergradUniv) { 
-        this.undergradUniv = undergradUniv; 
+    public void setUndergradUniv(String undergrad_univ) { 
+        this.undergrad_univ = undergrad_univ; 
     }
 
     public Sring getMajor() {
