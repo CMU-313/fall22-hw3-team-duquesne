@@ -82,17 +82,34 @@ public class TestDocumentResource extends BaseJerseyTest {
                         .param("Application Date", Long.toString(create1Date))), JsonObject.class);
         String document1Id = json.getString("id");
         Assert.assertNotNull(document1Id);
-        
-        // Create a document with document1
+               
+        // Create document 2 (Test invalid student creation)
+        //Case 1: GPA > 4.0
+        long create2Date = new Date().getTime();
         json = target().path("/document").request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .put(Entity.form(new Form()
-                        .param("title", "My super title document 2")
+                        .param("Name", "student 2")
+                        .param("gpa", "100")
                         .param("language", "eng")
-                        .param("tags", tag2Id)
-                        .param("relations", document1Id)), JsonObject.class);
+                        .param("Application Date", Long.toString(create2Date))), JsonObject.class);
         String document2Id = json.getString("id");
-        Assert.assertNotNull(document2Id);
+        //check for error handling
+        Assert.assertNull(document2Id);
+
+        //Case2: GPA not a number and not NA
+        // Create document 2 (Test invalid student creation)
+        create2Date = new Date().getTime();
+        json = target().path("/document").request()
+                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
+                .put(Entity.form(new Form()
+                        .param("Name", "student 2")
+                        .param("gpa", "Wut")
+                        .param("language", "eng")
+                        .param("Application Date", Long.toString(create2Date))), JsonObject.class);
+        document2Id = json.getString("id");
+        //check for error handling
+        Assert.assertNull(document2Id);
         
         // Add a file
         String file1Id = clientUtil.addFileToDocument(FILE_EINSTEIN_ROOSEVELT_LETTER_PNG,
