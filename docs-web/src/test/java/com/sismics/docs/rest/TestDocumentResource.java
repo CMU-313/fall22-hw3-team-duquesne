@@ -299,13 +299,23 @@ public class TestDocumentResource extends BaseJerseyTest {
                         .param("tags", tag3Id)), JsonObject.class);
         Assert.assertEquals(document1Id, json.getString("id"));
         
-        // Update document 2
-        json = target().path("/document/" + document2Id).request()
+        // Update document 1 (test case: edit with invalid inputs)
+        //Case 1: GPA > 4.0
+        json = target().path("/document/" + document1Id).request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .post(Entity.form(new Form()
-                        .param("title", "My super title document 2")
+                        .param("Name", "student 2 new name")
+                        .param("gpa", "9001")
                         .param("language", "eng")), JsonObject.class);
-        Assert.assertEquals(document2Id, json.getString("id"));
+        //FIXME Assert error was raised and data not changed
+        //Case 2: GPA not a number or NA
+        json = target().path("/document/" + document1Id).request()
+                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
+                .post(Entity.form(new Form()
+                        .param("Name", "student 2 new name")
+                        .param("gpa", "GPA")
+                        .param("language", "eng")), JsonObject.class);
+        //FIXME Assert error was raised and data not changed
 
         // Export a document in PDF format
         Response response = target().path("/document/" + document1Id + "/pdf")
@@ -389,13 +399,6 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals("Einstein-Roosevelt-letter.png", files.getJsonObject(0).getString("name"));
         Assert.assertEquals("image/png", files.getJsonObject(0).getString("mimetype"));
 
-        // Get document 2
-        json = target().path("/document/" + document1Id).request()
-                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
-                .get(JsonObject.class);
-        relations = json.getJsonArray("relations");
-        Assert.assertEquals(0, relations.size());
-        
         // Deletes a document
         json = target().path("/document/" + document1Id).request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
