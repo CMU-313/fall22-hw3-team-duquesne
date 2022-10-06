@@ -1,22 +1,36 @@
 <p class="well-sm" ng-bind-html="document.description"></p>
 <dl class="dl-horizontal">
-  <dt ng-if="document.subject">{{ 'document.subject' | translate }}</dt>
-  <dd ng-if="document.subject">{{ document.subject }}</dd>
-  <dt ng-if="document.identifier">{{ 'document.identifier' | translate }}</dt>
-  <dd ng-if="document.identifier">{{ document.identifier }}</dd>
-  <dt ng-if="document.publisher">{{ 'document.publisher' | translate }}</dt>
-  <dd ng-if="document.publisher">{{ document.publisher }}</dd>
-  <dt ng-if="document.format">{{ 'document.format' | translate }}</dt>
-  <dd ng-if="document.format">{{ document.format }}</dd>
-  <dt ng-if="document.source">{{ 'document.source' | translate }}</dt>
-  <dd ng-if="document.source">{{ document.source }}</dd>
-  <dt ng-if="document.type">{{ 'document.type' | translate }}</dt>
-  <dd ng-if="document.type">{{ document.type }}</dd>
-  <dt ng-if="document.coverage">{{ 'document.coverage' | translate }}</dt>
-  <dd ng-if="document.coverage">{{ document.coverage }}</dd>
-  <dt ng-if="document.rights">{{ 'document.rights' | translate }}</dt>
-  <dd ng-if="document.rights">{{ document.rights }}</dd>
-  <dt>{{ 'document.contributors' | translate }}</dt>
+  <dt ng-if="document.applicant">{{ 'document.applicant' | translate }}</dt>
+  <dd ng-if="document.applicant">{{ document.applicant }}</dd>
+  <dt ng-if="document.gender">{{ 'document.gender' | translate }}</dt>
+  <dd ng-if="document.gender">{{ document.gender }}</dd>
+  <dt ng-if="document.country">{{ 'document.country' | translate }}</dt>
+  <dd ng-if="document.country">{{ document.country }}</dd>
+  <dt ng-if="document.race">{{ 'document.race' | translate }}</dt>
+  <dd ng-if="document.race">{{ document.race }}</dd>
+  <dt ng-if="document.email">{{ 'document.email' | translate }}</dt>
+  <dd ng-if="document.email">{{ document.email }}</dd>
+  <dt ng-if="document.creation_date">{{ 'document.creation_date' | translate }}</dt>
+  <dd ng-if="document.creation_date">{{ document.creation_date }}</dd>
+  <dt ng-if="document.desired_program">{{ 'document.desired_program' | translate }}</dt>
+  <dd ng-if="document.desired_program">{{ document.desired_program }}</dd>
+  <dt ng-if="document.undergrad_univ">{{ 'document.undergrad_univ' | translate }}</dt>
+  <dd ng-if="document.undergrad_univ">{{ document.undergrad_univ }}</dd>
+  <dt ng-if="document.major">{{ 'document.major' | translate }}</dt>
+  <dd ng-if="document.major">{{ document.major }}</dd>
+  <dt ng-if="document.minor">{{ 'document.minor' | translate }}</dt>
+  <dd ng-if="document.minor">{{ document.minor }}</dd>
+  <dt ng-if="document.gpa">{{ 'document.gpa' | translate }}</dt>
+  <dd ng-if="document.gpa">{{ document.gpa }}</dd>
+  <dt ng-if="document.mcat">{{ 'document.mcat' | translate }}</dt>
+  <dd ng-if="document.mcat">{{ document.mcat }}</dd>
+  <dt ng-if="document.lsat">{{ 'document.lsat' | translate }}</dt>
+  <dd ng-if="document.lsat">{{ document.lsat }}</dd>
+  <dt ng-if="document.gre">{{ 'document.gre' | translate }}</dt>
+  <dd ng-if="document.gre">{{ document.gre }}</dd>
+  <dt ng-if="document.gmat">{{ 'document.gmat' | translate }}</dt>
+  <dd ng-if="document.gmat">{{ document.gmat }}</dd>
+  <!-- <dt>{{ 'document.contributors' | translate }}</dt>
   <dd>
     <span ng-repeat="contributor in document.contributors">
       <a class="btn btn-xs" href="#/user/{{ contributor.username }}">
@@ -24,7 +38,7 @@
         {{ contributor.username }}
       </a>
     </span>
-  </dd>
+  </dd> -->
   <dt ng-if="document.relations.length > 0">{{ 'document.relations' | translate }}</dt>
   <dd ng-if="document.relations.length > 0">
     <span ng-repeat="relation in document.relations">
