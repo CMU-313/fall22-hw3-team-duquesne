@@ -20,7 +20,7 @@ public class DocumentDto {
     /**
      * Student.
      */
-    private String name;
+    private String applicant;
     
     /**
      * AdditionalNotes.
@@ -111,7 +111,7 @@ public class DocumentDto {
     /**
      * Resume.
      */
-    private Document resume;
+    private DocumentDto resume;
 
     /**
      * Application date.
@@ -151,22 +151,22 @@ public class DocumentDto {
     /**
      * MCAT .
      */
-    private Int mcat;
+    private Integer mcat;
 
     /**
      * LSAT.
      */
-    private Int lsat;
+    private Integer lsat;
 
     /**
      * GRE.
      */
-    private Int gre;
+    private Integer gre;
 
     /**
      * GMAT.
      */
-    private Int gmat;
+    private Integer gmat;
     
 
     public String getId() {
@@ -204,12 +204,13 @@ public class DocumentDto {
     }
 
 
-    public Document getDocument() {
-        return document;
+    public DocumentDto getResume() {
+        return resume;
     }
 
-    public void setDocument(Document document) {
-        this.document = document;
+    public void setResume(DocumentDto resume) {
+        this.resume = resume;
+    }
 
     public String getIdentifier() {
         return identifier;
@@ -219,10 +220,6 @@ public class DocumentDto {
         this.identifier = identifier;
     }
 
-    public String getRights() {
-        return rights;
-    }
-
     public void setRights(String rights) {
         this.rights = rights;
     }
@@ -237,18 +234,6 @@ public class DocumentDto {
 
     public String getRights() {
         return rights;
-    }
-
-    public void setRights(String rights) {
-        this.rights = rights;
-    }
-
-    public Long getCreateTimestamp() {
-        return createTimestamp;
-    }
-
-    public void setCreateTimestamp(Long createTimestamp) {
-        this.createTimestamp = createTimestamp;
     }
 
     public Boolean getShared() {
@@ -268,11 +253,11 @@ public class DocumentDto {
     }
 
      public String getAdditionalNotes() {
-        return additionalNotes;
+        return additional_notes;
     }
 
-    public void setAdditionalNotes(String additionalNotes) {
-        this.additionalNotes = additionalNotes;
+    public void setAdditionalNotes(String additional_notes) {
+        this.additional_notes = additional_notes;
     }
 
     public String getTags() {
@@ -331,7 +316,7 @@ public class DocumentDto {
         this.undergrad_univ = undergrad_univ; 
     }
 
-    public Sring getMajor() {
+    public String getMajor() {
         return major; 
     }
 
@@ -355,38 +340,36 @@ public class DocumentDto {
         this.gpa = gpa; 
     }
 
-    public Int getMCAT() {
+    public Integer getMCAT() {
         return mcat; 
     }
 
-    public void setMCAT(Int mcat) {
+    public void setMCAT(Integer mcat) {
         this.mcat = mcat;
     }
 
-    public Int getLSAT() {
+    public Integer getLSAT() {
         return lsat; 
     }
 
-    public void setLSAT(Int lsat) {
+    public void setLSAT(Integer lsat) {
         this.lsat = lsat;
     }
 
-    public Int getGRE() {
+    public Integer getGRE() {
         return gre; 
     }
 
-    public void setGRE(Int gre) {
+    public void setGRE(Integer gre) {
         this.gre = gre;
     }
 
-    public Int getMGAT() {
-        return mgat; 
-    }
 
-    public void setGMAT(Int gmat) {
+    public void setGMAT(Integer gmat) {
         this.gmat = gmat;
 
     }
+
 
     public Integer getFileCount() {
         return fileCount;

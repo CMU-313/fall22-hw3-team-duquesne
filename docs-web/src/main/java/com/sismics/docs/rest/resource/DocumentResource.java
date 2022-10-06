@@ -248,7 +248,7 @@ public class DocumentResource extends BaseResource {
         for (RelationDto relationDto : relationDtoList) {
             relationList.add(Json.createObjectBuilder()
                     .add("id", relationDto.getId())
-                    .add("title", relationDto.getTitle())
+                    .add("title", relationDto.getName())
                     .add("source", relationDto.isSource()));
         }
         document.add("relations", relationList);
@@ -349,7 +349,7 @@ public class DocumentResource extends BaseResource {
 
         return Response.ok(stream)
                 .header("Content-Type", MimeType.APPLICATION_PDF)
-                .header("Content-Disposition", "inline; filename=\"" + documentDto.getTitle() + ".pdf\"")
+                .header("Content-Disposition", "inline; filename=\"" + documentDto.getName() + ".pdf\"")
                 .build();
     }
     
@@ -456,7 +456,7 @@ public class DocumentResource extends BaseResource {
                     .add("id", documentDto.getId())
                     .add("highlight", JsonUtil.nullable(documentDto.getHighlight()))
                     .add("file_id", JsonUtil.nullable(documentDto.getFileId()))
-                    .add("title", documentDto.getTitle())
+                    .add("title", documentDto.getName())
                     .add("description", JsonUtil.nullable(documentDto.getDescription()))
                     .add("create_date", documentDto.getCreateTimestamp())
                     .add("update_date", documentDto.getUpdateTimestamp())

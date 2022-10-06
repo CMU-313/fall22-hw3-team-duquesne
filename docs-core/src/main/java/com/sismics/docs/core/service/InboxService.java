@@ -223,16 +223,13 @@ public class InboxService extends AbstractScheduledService {
         }
 
         document.setUserId("admin");
-        document.setTitle(StringUtils.abbreviate(subject, 100));
-        document.setDescription(StringUtils.abbreviate(mailContent.getMessage(), 4000));
-        document.setSubject(StringUtils.abbreviate(mailContent.getSubject(), 500));
-        document.setFormat("EML");
-        document.setSource("Inbox");
+        document.setName(StringUtils.abbreviate(subject, 100));
+        document.setAdditionalNotes(StringUtils.abbreviate(mailContent.getMessage(), 4000));
         document.setLanguage(ConfigUtil.getConfigStringValue(ConfigType.DEFAULT_LANGUAGE));
         if (mailContent.getDate() == null) {
-            document.setCreateDate(new Date());
+            document.setApplicationDate(new Date());
         } else {
-            document.setCreateDate(mailContent.getDate());
+            document.setApplicationDate(mailContent.getDate());
         }
 
         // Save the document, create the base ACLs

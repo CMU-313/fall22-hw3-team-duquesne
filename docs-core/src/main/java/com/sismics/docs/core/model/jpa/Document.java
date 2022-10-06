@@ -28,6 +28,12 @@ public class Document implements Loggable {
      */
     @Column(name = "DOC_IDUSER_C", nullable = false, length = 36)
     private String userId;
+
+     /**
+     * document.
+     */
+    @Column(name = "DOC_DOCUMENT_C", nullable = false, length = 36)
+    private Date document;
     
     /**
      * Main file ID.
@@ -93,12 +99,12 @@ public class Document implements Loggable {
     * Application Date.
     */
     @Column(name = "DOC_APPLICATION_DATE_D", nullable = false, length = 100)
-    private Date applicationDate; 
+    private Date creation_date; 
 
     /**
     * Resume.
     */
-    @Column(name = "DOC_RESUME_C", nullalbe = false, length = 100)
+    @Column(name = "DOC_RESUME_C", nullable = false, length = 100)
     private Document resume; 
 
     /**
@@ -116,8 +122,8 @@ public class Document implements Loggable {
     /**
      * Undergraduate university. 
      */
-    @Column(name = "DOC_UNDERGRAD_UNIV_C", nullalbe = false, length = 100)
-    private String undergradUniv; 
+    @Column(name = "DOC_UNDERGRAD_UNIV_C", nullable = false, length = 100)
+    private String undergrad_univ; 
 
     /**
      * Major. 
@@ -129,37 +135,37 @@ public class Document implements Loggable {
      * Major. 
      */
     @Column(name = "DOC_MINOR_C", length = 100)
-    private String minotr; 
+    private String minor; 
 
     /**
      * GPA. 
      */
     @Column(name = "DOC_GPA_C", length = 100)
-    private Float GPA; 
+    private Float gpa; 
 
     /**
      * MCAT. 
      */
     @Column(name = "DOC_MCAT_C", length = 100)
-    private String mcat; 
+    private Integer mcat; 
 
     /**
      * LSAT. 
      */
     @Column(name = "DOC_LSAT_C", length = 100)
-    private String lsat; 
+    private Integer lsat; 
 
     /**
      * GRE. 
      */
     @Column(name = "DOC_GRE_C", length = 100)
-    private String gre; 
+    private Integer gre; 
 
     /**
      * GMAT. 
      */
     @Column(name = "DOC_GMAT_C", length = 100)
-    private String gmat; 
+    private Integer gmat; 
 
 
     /**
@@ -282,7 +288,7 @@ public class Document implements Loggable {
         this.undergrad_univ = undergrad_univ; 
     }
 
-    public Sring getMajor() {
+    public String getMajor() {
         return major; 
     }
 
@@ -294,57 +300,50 @@ public class Document implements Loggable {
         return gpa; 
     }
 
-    public void setGPA(String gpa) {
+    public void setGPA(Float gpa) {
         this.gpa = gpa; 
     }
 
     public String getMinor() {
-        this.minor = minor; 
+        return minor;  
     }
 
     public void setMinor(String minor) {
-        return minor;
+        this.minor = minor;
     }
 
-    public Int getMCAT() {
-        this.mcat = mcat;
-    }
-
-    public void setMCAT(Int mcat) {
+    public Integer getMCAT() {
         return mcat; 
     }
 
-    public Int getLSAT() {
-        this.lsat = lsat;
+    public void setMCAT(Integer mcat) {
+        this.mcat = mcat; 
     }
 
-    public void setLSAT(int lsat) {
+    public Integer getLSAT() {
         return lsat; 
     }
 
-    public Int getGRE() {
+    public void setLSAT(Integer lsat) {
+        this.lsat = lsat; 
+    }
+
+    public Integer getGRE() {
+        return gre;
+    }
+
+    public void setGRE(Integer gre) {
         this.gre = gre;
     }
 
-    public void setGRE(int gre) {
-        return gre; 
-    }
-
-    public Int getGMAT() {
-        this.gmat = gmat;
-    }
-
-    public void setGMAT(int gmat) {
+    public Integer getGMAT() {
         return gmat; 
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public void setGMAT(Integer gmat) {
+       this.gmat = gmat;
     }
 
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
     
     public String getLanguage() {
         return language;
@@ -360,22 +359,6 @@ public class Document implements Loggable {
  
     public void setShared(String shared) {
         this.shared = shared;
-    }
-
-    public String getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(String coverage) {
-        this.coverage = coverage;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
     }
 
     @Override
@@ -395,6 +378,14 @@ public class Document implements Loggable {
         this.updateDate = updateDate;
     }
 
+    public Date getDocument() {
+        return document;
+    }
+
+    public void setDocument(Date document) {
+        this.document = document;
+    }
+
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -404,6 +395,6 @@ public class Document implements Loggable {
 
     @Override
     public String toMessage() {
-        return title;
+        return applicant;
     }
 }

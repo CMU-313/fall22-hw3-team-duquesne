@@ -698,7 +698,7 @@ public class FileResource extends BaseResource {
         // Get files associated with this document
         FileDao fileDao = new FileDao();
         final List<File> fileList = fileDao.getByDocumentId(principal.getId(), documentId);
-        String zipFileName = documentDto.getTitle().replaceAll("\\W+", "_");
+        String zipFileName = documentDto.getName().replaceAll("\\W+", "_");
         return sendZippedFiles(zipFileName, fileList);
     }
 
