@@ -40,72 +40,18 @@ public class Document implements Loggable {
      */
     @Column(name = "DOC_LANGUAGE_C", nullable = false, length = 3)
     private String language;
+
+    /** 
+     * Name
+     */
+    @Column(name = "DOC_NAME_C", nullable = false, length = 100)
+    private String applicant; 
     
     /**
-     * Title.
+     * Additional notes.
      */
-    @Column(name = "DOC_TITLE_C", nullable = false, length = 100)
-    private String title;
-    
-    /**
-     * Description.
-     */
-    @Column(name = "DOC_DESCRIPTION_C", length = 4000)
-    private String description;
-    
-    /**
-     * Subject.
-     */
-    @Column(name = "DOC_SUBJECT_C", length = 500)
-    private String subject;
-    
-    /**
-     * Identifer.
-     */
-    @Column(name = "DOC_IDENTIFIER_C", length = 500)
-    private String identifier;
-    
-    /**
-     * Publisher.
-     */
-    @Column(name = "DOC_PUBLISHER_C", length = 500)
-    private String publisher;
-    
-    /**
-     * Format.
-     */
-    @Column(name = "DOC_FORMAT_C", length = 500)
-    private String format;
-    
-    /**
-     * Source.
-     */
-    @Column(name = "DOC_SOURCE_C", length = 500)
-    private String source;
-    
-    /**
-     * Type.
-     */
-    @Column(name = "DOC_TYPE_C", length = 100)
-    private String type;
-    
-    /**
-     * Coverage.
-     */
-    @Column(name = "DOC_COVERAGE_C", length = 100)
-    private String coverage;
-    
-    /**
-     * Rights.
-     */
-    @Column(name = "DOC_RIGHTS_C", length = 100)
-    private String rights;
-    
-    /**
-     * Creation date.
-     */
-    @Column(name = "DOC_CREATEDATE_D", nullable = false)
-    private Date createDate;
+    @Column(name = "DOC_ADDITIONAL_NOTES_C", length = 4000)
+    private String additionalNotes;
 
     /**
      * Creation date.
@@ -118,21 +64,116 @@ public class Document implements Loggable {
      */
     @Column(name = "DOC_DELETEDATE_D")
     private Date deleteDate;
-    
+
+    /**
+     * Gender. 
+     */
+    @Column(name = "DOC_GENDER_C", length = 100)
+    private String gender; 
+
+    /**
+     * Country. 
+     */
+    @Column(name = "DOC_COUNTRY_C", length = 100)
+    private String country; 
+
+    /**
+     * Race. 
+     */
+    @Column(name = "DOC_RACE_C", length = 100)
+    private String race; 
+
+    /**
+     * Email 
+     */
+    @Column(name = "DOC_EMAIL_C", nullable = false, length = 100)
+    private String email;
+
+    /**
+    * Application Date.
+    */
+    @Column(name = "DOC_APPLICATION_DATE_D", nullable = false, length = 100)
+    private Date applicationDate; 
+
+    /**
+    * Resume.
+    */
+    @Column(name = "DOC_RESUME_C", nullalbe = false, length = 100)
+    private Document resume; 
+
+    /**
+     * Tags. 
+     */
+    @Column(name = "DOC_TAGS_C", length = 100)
+    private String tags; 
+
+    /**
+     * Major. 
+     */
+    @Column(name = "DOC_GRADMAJOR_C", nullable = false, length = 100)
+    private String desired_program; 
+
+    /**
+     * Undergraduate university. 
+     */
+    @Column(name = "DOC_UNDERGRAD_UNIV_C", nullalbe = false, length = 100)
+    private String undergradUniv; 
+
+    /**
+     * Major. 
+     */
+    @Column(name = "DOC_MAJOR_C", nullable = false, length = 100)
+    private String major; 
+
+    /**
+     * Major. 
+     */
+    @Column(name = "DOC_MINOR_C", length = 100)
+    private String minotr; 
+
+    /**
+     * GPA. 
+     */
+    @Column(name = "DOC_GPA_C", length = 100)
+    private Float GPA; 
+
+    /**
+     * MCAT. 
+     */
+    @Column(name = "DOC_MCAT_C", length = 100)
+    private String mcat; 
+
+    /**
+     * LSAT. 
+     */
+    @Column(name = "DOC_LSAT_C", length = 100)
+    private String lsat; 
+
+    /**
+     * GRE. 
+     */
+    @Column(name = "DOC_GRE_C", length = 100)
+    private String gre; 
+
+    /**
+     * GMAT. 
+     */
+    @Column(name = "DOC_GMAT_C", length = 100)
+    private String gmat; 
+
+
+    /**
+     * shared. 
+     */
+    @Column(name = "DOC_SHARED_C", length = 100)
+    private String shared; 
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-    
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
     
     public String getUserId() {
@@ -152,28 +193,149 @@ public class Document implements Loggable {
         return this;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return applicant;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String applicant) {
+        this.applicant = applicant;
+
     }
 
-    public String getDescription() {
-        return description;
+    public String getAdditionalNotes() {
+        return additionalNotes;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
-    }
-    
-    public String getSubject() {
-        return subject;
+    public void setAdditionalNotes(String additionalNotes) {
+        this.additionalNotes = additionalNotes;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender; 
+    }
+
+    public String getCountry() {
+        return country; 
+    }
+
+    public void setCountry(String country) {
+        this.country = country; 
+    }
+
+    public String getRace() {
+        return race; 
+    }
+
+    public void setRace(String race) {
+        this.race = race; 
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email; 
+    }
+
+    public void setApplicationDate(Date creation_date) {
+        this.creation_date = creation_date; 
+    }
+
+    public Date getApplicationDate() {
+        return creation_date; 
+    }
+
+    public Document getResume() {
+        return resume;
+    }
+
+    public void setResume(Document resume) {
+        this.resume = resume; 
+    }
+
+    public String getTags() {
+        return tags;
+    }
+
+    public void setTags(String tags) {
+        this.tags = tags;
+    }
+
+    public String getGradMajor() {
+        return desired_program; 
+    }
+
+    public void setGradMajor(String desired_program) {
+        this.desired_program = desired_program; 
+    }
+
+    public String getUndergradUniv() {
+        return undergrad_univ; 
+    }
+
+    public void setUndergradUniv(String undergrad_univ) { 
+        this.undergrad_univ = undergrad_univ; 
+    }
+
+    public Sring getMajor() {
+        return major; 
+    }
+
+    public void setMajor(String major) {
+        this.major = major; 
+    }
+
+    public Float getGPA() {
+        return gpa; 
+    }
+
+    public void setGPA(String gpa) {
+        this.gpa = gpa; 
+    }
+
+    public String getMinor() {
+        this.minor = minor; 
+    }
+
+    public void setMinor(String minor) {
+        return minor;
+    }
+
+    public Int getMCAT() {
+        this.mcat = mcat;
+    }
+
+    public void setMCAT(Int mcat) {
+        return mcat; 
+    }
+
+    public Int getLSAT() {
+        this.lsat = lsat;
+    }
+
+    public void setLSAT(int lsat) {
+        return lsat; 
+    }
+
+    public Int getGRE() {
+        this.gre = gre;
+    }
+
+    public void setGRE(int gre) {
+        return gre; 
+    }
+
+    public Int getGMAT() {
+        this.gmat = gmat;
+    }
+
+    public void setGMAT(int gmat) {
+        return gmat; 
     }
 
     public String getIdentifier() {
@@ -184,36 +346,20 @@ public class Document implements Loggable {
         this.identifier = identifier;
     }
     
-    public String getPublisher() {
-        return publisher;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getFormat() {
-        return format;
+    public String getShared() {
+        return shared;
     }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
+ 
+    public void setShared(String shared) {
+        this.shared = shared;
     }
 
     public String getCoverage() {
@@ -222,14 +368,6 @@ public class Document implements Loggable {
 
     public void setCoverage(String coverage) {
         this.coverage = coverage;
-    }
-
-    public String getRights() {
-        return rights;
-    }
-
-    public void setRights(String rights) {
-        this.rights = rights;
     }
 
     public Date getCreateDate() {
