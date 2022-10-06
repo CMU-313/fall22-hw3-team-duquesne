@@ -102,17 +102,7 @@ public class Document implements Loggable {
     @Column(name = "DOC_APPLICATION_DATE_D", nullable = false, length = 100)
     private Date creation_date; 
 
-    /**
-    * Resume.
-    */
-    @Column(name = "DOC_RESUME_C", nullable = false, length = 100)
-    private Document resume; 
-
-    /**
-     * Tags. 
-     */
-    @Column(name = "DOC_TAGS_C", length = 100)
-    private List<String> tags; 
+   
 
     /**
      * Major. 
@@ -257,21 +247,6 @@ public class Document implements Loggable {
         return creation_date; 
     }
 
-    public Document getResume() {
-        return resume;
-    }
-
-    public void setResume(Document resume) {
-        this.resume = resume; 
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
 
     public String getGradMajor() {
         return desired_program; 

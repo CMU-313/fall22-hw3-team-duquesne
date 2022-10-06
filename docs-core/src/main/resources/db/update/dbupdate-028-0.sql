@@ -2,7 +2,6 @@ alter table T_DOCUMENT rename column DOC_TITLE_C to DOC_NAME_C;
 alter table T_DOCUMENT rename column DOC_DESCRIPTION_C to DOC_ADDITIONAL_NOTES_C;
 alter table T_DOCUMENT rename column DOC_CREATEDATE_D to DOC_APPLICATION_DATE_D;
 
-alter table T_DOCUMENT add column DOC_RESUME_C varchar(36) not null;
 alter table T_DOCUMENT add column DOC_GENDER_C varchar(500);
 alter table T_DOCUMENT add column DOC_COUNTRY_C varchar(500);
 alter table T_DOCUMENT add column DOC_RACE_C varchar(500);
@@ -17,6 +16,7 @@ alter table T_DOCUMENT add column DOC_LSAT_C int;
 alter table T_DOCUMENT add column DOC_GRE_C int;
 alter table T_DOCUMENT add column DOC_GMAT_C int;
 
+alter table T_DOCUMENT drop column DOC_RESUME_C;
 alter table T_DOCUMENT drop column DOC_LANGUAGE_C;
 alter table T_DOCUMENT drop column DOC_PUBLISHER_C;
 alter table T_DOCUMENT drop column DOC_TYPE_C;

@@ -725,7 +725,6 @@ public class DocumentResource extends BaseResource {
             @FormParam("race") String race,
             @FormParam("email") String email, 
             @FormParam("creation_Date") Date creation_dateStr,
-            @FormParam("resume") Document resume,
             @FormParam("tags") List<String> tagList,
             @FormParam("desired_program") String desired_program,
             @FormParam("undergrad_univ")String undergrad_univ,
@@ -765,7 +764,6 @@ public class DocumentResource extends BaseResource {
         document.setCountry(country);
         document.setRace(race);
         document.setEmail(email);
-        document.setResume(resume);
         document.setGradMajor(desired_program);
         document.setUndergradUniv(undergrad_univ);
         document.setMinor(minor);
@@ -774,7 +772,6 @@ public class DocumentResource extends BaseResource {
         document.setLSAT(lsat);
         document.setGRE(gre);
         document.setGMAT(gmat);
-        document.setTags(tagList);
         if (creation_dateStr == null) {
             document.setApplicationDate(new Date());
         } else {
@@ -851,7 +848,6 @@ public class DocumentResource extends BaseResource {
             @FormParam("race") String race,
             @FormParam("email") String email, 
             @FormParam("creation_Date") String creation_dateStr,
-            @FormParam("resume") Document resume,
             @FormParam("tags") List<String> tagList,
             @FormParam("desired_program") String desired_program,
             @FormParam("undergrad_univ")String undergrad_univ,
@@ -902,8 +898,6 @@ public class DocumentResource extends BaseResource {
         document.setCountry(country);
         document.setRace(race);
         document.setEmail(email);
-        document.setResume(resume);
-        document.setTags(tagList);
         document.setApplicationDate(new Date());
         
         documentDao.update(document, principal.getId());

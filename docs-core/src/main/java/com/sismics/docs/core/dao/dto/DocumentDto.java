@@ -110,11 +110,6 @@ public class DocumentDto {
     private String email;
 
     /**
-     * Resume.
-     */
-    private DocumentDto resume;
-
-    /**
      * Application date.
      */
     private String creation_date;
@@ -123,12 +118,6 @@ public class DocumentDto {
      * gradMajor.
      */
     private String desired_program;
-
-    /**
-     * Tags.
-     */
-    private List<String> tags;
-
     /**
      * Unergraduate university.
      */
@@ -204,15 +193,6 @@ public class DocumentDto {
         this.email = email;
     }
 
-
-    public DocumentDto getResume() {
-        return resume;
-    }
-
-    public void setResume(DocumentDto resume) {
-        this.resume = resume;
-    }
-
     public String getIdentifier() {
         return identifier;
     }
@@ -261,13 +241,7 @@ public class DocumentDto {
         this.additional_notes = additional_notes;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
 
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
     public String getGender() {
         return gender;
     }
