@@ -1,4 +1,5 @@
 package com.sismics.docs.core.dao.dto;
+import java.util.List;
 
 /**
  * Document DTO.
@@ -126,7 +127,7 @@ public class DocumentDto {
     /**
      * Tags.
      */
-    private String tags;
+    private List<String> tags;
 
     /**
      * Unergraduate university.
@@ -260,11 +261,11 @@ public class DocumentDto {
         this.additional_notes = additional_notes;
     }
 
-    public String getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
     public String getGender() {
@@ -302,6 +303,10 @@ public class DocumentDto {
 
     public String getGradMajor() {
         return desired_program; 
+    }
+
+    public Integer getGMAT() {
+        return gmat;
     }
 
     public void setGradMajor(String desired_program) {

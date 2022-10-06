@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Document entity.
@@ -111,7 +112,7 @@ public class Document implements Loggable {
      * Tags. 
      */
     @Column(name = "DOC_TAGS_C", length = 100)
-    private String tags; 
+    private List<String> tags; 
 
     /**
      * Major. 
@@ -264,11 +265,11 @@ public class Document implements Loggable {
         this.resume = resume; 
     }
 
-    public String getTags() {
+    public List<String> getTags() {
         return tags;
     }
 
-    public void setTags(String tags) {
+    public void setTags(List<String> tags) {
         this.tags = tags;
     }
 

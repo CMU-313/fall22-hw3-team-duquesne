@@ -116,7 +116,7 @@ public class DocumentDao {
         documentDto.setEmail((String) o[i++]);
         documentDto.setApplicationDate((String) o[i++]);
         documentDto.setResume(((DocumentDto) o[i++]).getResume());
-        documentDto.setTags((String) o[i++]);
+        documentDto.setTags((List<String>) o[i++]);
         documentDto.setGradMajor((String) o[i++]);
         documentDto.setUndergradUniv((String) o[i++]);
         documentDto.setMajor((String) o[i++]);
@@ -214,7 +214,7 @@ public class DocumentDao {
         documentDb.setCountry(document.getCountry());
         documentDb.setRace(document.getRace());
         documentDb.setEmail(document.getEmail());
-        documentDb.setApplicationDate(document.getApplicationDate());
+        documentDb.setApplicationDate((Timestamp)document.getApplicationDate());
         documentDb.setResume(document.getResume());
         documentDb.setTags(document.getTags());
         documentDb.setGradMajor(document.getGradMajor());
