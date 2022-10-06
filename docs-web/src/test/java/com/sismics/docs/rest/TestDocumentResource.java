@@ -261,21 +261,24 @@ public class TestDocumentResource extends BaseJerseyTest {
         String tag3Id = json.getString("id");
         Assert.assertNotNull(tag3Id);
         
-        // Update document 1
+        // Update document 1 (test case: edit with valid inputs)
         json = target().path("/document/" + document1Id).request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .post(Entity.form(new Form()
-                        .param("title", "My new super document 1")
-                        .param("description", "My new super description for document\r\n\u00A0\u0009 1")
-                        .param("subject", "My new subject for document 1")
-                        .param("identifier", "My new identifier for document 1")
-                        .param("publisher", "My new publisher for document 1")
-                        .param("format", "My new format for document 1")
-                        .param("source", "My new source for document 1")
-                        .param("type", "Image")
-                        .param("coverage", "France")
+                        .param("Name", "student 1 new name")
+                        .param("Gender", "Transgender")
+                        .param("Country", "Canada")
+                        .param("Race", "Pacific Islander")
+                        .param("Email", "Student1@andrew.cmu.edu")
+                        .param("Desired Program", "Information Systems")
+                        .param("Undergraduate University", "University of Pittsburgh")
+                        .param("Major", "Information Technology")
+                        .param("Minor", "UX")
+                        .param("MCAT", "NA")
+                        .param("LSAT", "NA")
+                        .param("GRE", "310")
+                        .param("gpa", "3.6")
                         .param("language", "eng")
-                        .param("rights", "All Rights Reserved")
                         .param("tags", tag3Id)), JsonObject.class);
         Assert.assertEquals(document1Id, json.getString("id"));
         
@@ -328,28 +331,33 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals("Einstein-Roosevelt-letter.png", files.getJsonObject(0).getString("name"));
         Assert.assertEquals("image/png", files.getJsonObject(0).getString("mimetype"));
 
-        // Get document 1
+       // Test student 1 got updated (test update retrival)
         json = target().path("/document/" + document1Id).request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .get(JsonObject.class);
-        Assert.assertTrue(json.getString("title").contains("new"));
-        Assert.assertTrue(json.getString("description").contains("new"));
-        Assert.assertTrue(json.getString("subject").contains("new"));
-        Assert.assertTrue(json.getString("identifier").contains("new"));
-        Assert.assertTrue(json.getString("publisher").contains("new"));
-        Assert.assertTrue(json.getString("format").contains("new"));
-        Assert.assertTrue(json.getString("source").contains("new"));
-        Assert.assertEquals("Image", json.getString("type"));
-        Assert.assertEquals("France", json.getString("coverage"));
-        Assert.assertEquals("All Rights Reserved", json.getString("rights"));
+        Assert.assertEquals(document1Id, json.getString("id"));
+        Assert.assertEquals("document1", json.getString("creator"));
+        Assert.assertEquals(1, json.getInt("file_count"));
+        Assert.assertTrue(json.getBoolean("shared"));
+        Assert.assertEquals("student 1 new name", json.getString("Name"));
+        Assert.assertEquals("Transgender", json.getString("Gender"));
+        Assert.assertEquals("Canda", json.getString("Country"));
+        Assert.assertEquals("Pacific Islander", json.getString("Race"));
+        Assert.assertEquals("Student1@andrew.cmu.edu", json.getString("Email"));
+        Assert.assertEquals("Information Systems", json.getString("Desired Program"));
+        Assert.assertEquals("University of Pittsburgh", json.getString("Undergrauate University"));
+        Assert.assertEquals("Information Techology", json.getString("Major"));
+        Assert.assertEquals("UX", json.getString("Minor"));
+        Assert.assertEquals("NA", json.getString("MCAT"));
+        Assert.assertEquals("NA", json.getString("LSAT"));
+        Assert.assertEquals("310", json.getString("GRE"));
+        Assert.assertEquals("eng", json.getString("language"));
+        Assert.assertEquals("3.6", json.getString("gpa"));
+        Assert.assertEquals(create1Date, json.getJsonNumber("create_date").longValue());
+        Assert.assertNotNull(json.get("update_date"));
         tags = json.getJsonArray("tags");
         Assert.assertEquals(1, tags.size());
         Assert.assertEquals(tag3Id, tags.getJsonObject(0).getString("id"));
-        contributors = json.getJsonArray("contributors");
-        Assert.assertEquals(1, contributors.size());
-        Assert.assertEquals("document1", contributors.getJsonObject(0).getString("username"));
-        relations = json.getJsonArray("relations");
-        Assert.assertEquals(0, relations.size());
         Assert.assertFalse(json.containsKey("files"));
 
         // Get document 1 with its files
