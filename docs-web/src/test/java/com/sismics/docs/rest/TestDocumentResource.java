@@ -82,7 +82,7 @@ public class TestDocumentResource extends BaseJerseyTest {
                         .param("Application Date", Long.toString(create1Date))), JsonObject.class);
         String document1Id = json.getString("id");
         Assert.assertNotNull(document1Id);
-               
+        
         // Create document 2 (Test invalid student creation)
         //Case 1: GPA > 4.0
         long create2Date = new Date().getTime();
@@ -110,8 +110,21 @@ public class TestDocumentResource extends BaseJerseyTest {
         document2Id = json.getString("id");
         //check for error handling
         Assert.assertNull(document2Id);
+
+        // Create an entry for student 2 (added to test search)
+        create2Date = new Date().getTime();
+        json = target().path("/document").request()
+                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
+                .put(Entity.form(new Form()
+                        .param("Name", "student 2")
+                        .param("LSAT", "200")
+                        .param("gpa", "4.0")
+                        .param("language", "eng")
+                        .param("Application Date", Long.toString(create2Date))), JsonObject.class);
+        document2Id = json.getString("id");
+        Assert.assertNotNull(document2Id);
         
-        // Add a file
+        // Add a file to student1
         String file1Id = clientUtil.addFileToDocument(FILE_EINSTEIN_ROOSEVELT_LETTER_PNG,
                 document1Token, document1Id);
 
@@ -144,7 +157,7 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals("#ffff00", tags.getJsonObject(1).getString("color"));
         Assert.assertFalse(documents.getJsonObject(0).getBoolean("active_route"));
 
-        // List all documents from document3
+        // assert that there's no student3 in the list
         json = target().path("/document/list")
                 .queryParam("sort_column", 3)
                 .queryParam("asc", false)
@@ -154,23 +167,35 @@ public class TestDocumentResource extends BaseJerseyTest {
         documents = json.getJsonArray("documents");
         Assert.assertTrue(documents.isEmpty());
         
-        // Create a document with document3
+        // Create student3 (create extra student to test that search works)
         long create3Date = new Date().getTime();
         json = target().path("/document").request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document3Token)
                 .put(Entity.form(new Form()
-                        .param("title", "My_super_title_document_3")
-                        .param("description", "My super description for document 3")
+                        .param("Name", "student 3")
+                        .param("Gender", "Bisexual")
+                        .param("Country", "US")
+                        .param("Race", "White")
+                        .param("Email", "Student1@gmail.com")
+                        .param("Desired Program", "Biology")
+                        .param("Undergraduate University", "Carnegie Mellon University")
+                        .param("Major", "Biology")
+                        .param("Minor", "Psychology")
+                        .param("MCAT", "528")
+                        .param("tags", tag1Id)
+                        .param("tags", tag2Id)
+                        .param("GRE", "330")
+                        .param("gpa", "4.0")
                         .param("language", "eng")
                         .param("create_date", Long.toString(create3Date))), JsonObject.class);
         String document3Id = json.getString("id");
         Assert.assertNotNull(document3Id);
         
-        // Add a file
+        // Add a file to student 3
         clientUtil.addFileToDocument(FILE_EINSTEIN_ROOSEVELT_LETTER_PNG,
                 document3Token, document3Id);
 
-        // List all documents from document3
+        // Assert that one student is found when searching for student 3
         json = target().path("/document/list")
                 .queryParam("sort_column", 3)
                 .queryParam("asc", false)
@@ -259,19 +284,7 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals("document1", contributors.getJsonObject(0).getString("username"));
         Assert.assertFalse(json.containsKey("files"));
 
-        // Get document 2
-        json = target().path("/document/" + document2Id).request()
-                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
-                .get(JsonObject.class);
-        Assert.assertEquals(document2Id, json.getString("id"));
-        relations = json.getJsonArray("relations");
-        Assert.assertEquals(1, relations.size());
-        Assert.assertEquals(document1Id, relations.getJsonObject(0).getString("id"));
-        Assert.assertTrue(relations.getJsonObject(0).getBoolean("source"));
-        Assert.assertEquals("My super title document 1", relations.getJsonObject(0).getString("title"));
-        Assert.assertFalse(json.containsKey("files"));
-
-        // Create a tag
+        // Create tag 3
         json = target().path("/tag").request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .put(Entity.form(new Form().param("name", "SuperTag2").param("color", "#00ffff")), JsonObject.class);
@@ -298,7 +311,7 @@ public class TestDocumentResource extends BaseJerseyTest {
                         .param("language", "eng")
                         .param("tags", tag3Id)), JsonObject.class);
         Assert.assertEquals(document1Id, json.getString("id"));
-        
+     
         // Update document 1 (test case: edit with invalid inputs)
         //Case 1: GPA > 4.0
         json = target().path("/document/" + document1Id).request()
@@ -330,17 +343,6 @@ public class TestDocumentResource extends BaseJerseyTest {
         byte[] pdfBytes = ByteStreams.toByteArray(is);
         Assert.assertTrue(pdfBytes.length > 0);
 
-        // Search documents by query
-        json = target().path("/document/list")
-                .queryParam("search", "new")
-                .request()
-                .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
-                .get(JsonObject.class);
-        documents = json.getJsonArray("documents");
-        Assert.assertEquals(1, documents.size());
-        Assert.assertEquals(document1Id, documents.getJsonObject(0).getString("id"));
-        Assert.assertFalse(documents.getJsonObject(0).containsKey("files"));
-
         // Search documents by query with files
         json = target().path("/document/list")
                 .queryParam("files", true)
@@ -358,7 +360,7 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals("Einstein-Roosevelt-letter.png", files.getJsonObject(0).getString("name"));
         Assert.assertEquals("image/png", files.getJsonObject(0).getString("mimetype"));
 
-       // Test student 1 got updated (test update retrival)
+        // Test student 1 got updated (test update retrival)
         json = target().path("/document/" + document1Id).request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .get(JsonObject.class);
@@ -398,7 +400,7 @@ public class TestDocumentResource extends BaseJerseyTest {
         Assert.assertEquals(file1Id, files.getJsonObject(0).getString("id"));
         Assert.assertEquals("Einstein-Roosevelt-letter.png", files.getJsonObject(0).getString("name"));
         Assert.assertEquals("image/png", files.getJsonObject(0).getString("mimetype"));
-
+      
         // Deletes a document
         json = target().path("/document/" + document1Id).request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
