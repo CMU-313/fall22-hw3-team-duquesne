@@ -135,7 +135,7 @@
         "workflow_start_label": "Which workflow to start?",
         "add_more_workflow": "Add more workflows",
         "start_workflow_submit": "Start workflow",
-        "full_name": "<strong>{{ name }}</strong> started on {{ create_date | date }}",
+        "full_name": "<strong>{{ name }}</strong> started on {{ creation_date | date }}",
         "cancel_workflow": "Cancel the current workflow",
         "cancel_workflow_title": "Cancel the workflow",
         "cancel_workflow_message": "Do you really want to cancel the current workflow?",

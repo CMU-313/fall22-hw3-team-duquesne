@@ -87,7 +87,7 @@ public class DocumentDao {
         }
 
         EntityManager em = ThreadLocalContext.get().getEntityManager();
-        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C, d.DOC_TITLE_C, d.DOC_DESCRIPTION_C, d.DOC_SUBJECT_C, d.DOC_IDENTIFIER_C, d.DOC_PUBLISHER_C, d.DOC_FORMAT_C, d.DOC_SOURCE_C, d.DOC_TYPE_C, d.DOC_COVERAGE_C, d.DOC_RIGHTS_C, d.DOC_CREATEDATE_D, d.DOC_UPDATEDATE_D, d.DOC_LANGUAGE_C, ");
+        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C, d.DOC_NAME_C, d.DOC_ADDITIONAL_NOTES_C, d.DOC_GENDER_C, d.DOC_COUNTRY_C, d.DOC_RACE_C, d.DOC_EMAIL_C, d.DOC_APPLICATION_DATE_D, d.DOC_RESUME_C, d.DOC_TAGS_C, d.DOC_GRADMAJOR_C, d.DOC_UNDERGRAD_UNIV_C, d.DOC_MAJOR_C, d.DOC_MINOR_C, d.DOC_GPA_C, d.DOC_MCAT_C, d.DOC_LSAT_C, d.DOC_GRE_C, d.DOC_GMAT_C, ");
         sb.append(" (select count(s.SHA_ID_C) from T_SHARE s, T_ACL ac where ac.ACL_SOURCEID_C = d.DOC_ID_C and ac.ACL_TARGETID_C = s.SHA_ID_C and ac.ACL_DELETEDATE_D is null and s.SHA_DELETEDATE_D is null) shareCount, ");
         sb.append(" (select count(f.FIL_ID_C) from T_FILE f where f.FIL_DELETEDATE_D is null and f.FIL_IDDOC_C = d.DOC_ID_C) fileCount, ");
         sb.append(" u.USE_USERNAME_C ");
@@ -108,19 +108,24 @@ public class DocumentDao {
         DocumentDto documentDto = new DocumentDto();
         int i = 0;
         documentDto.setId((String) o[i++]);
-        documentDto.setTitle((String) o[i++]);
-        documentDto.setDescription((String) o[i++]);
-        documentDto.setSubject((String) o[i++]);
-        documentDto.setIdentifier((String) o[i++]);
-        documentDto.setPublisher((String) o[i++]);
-        documentDto.setFormat((String) o[i++]);
-        documentDto.setSource((String) o[i++]);
-        documentDto.setType((String) o[i++]);
-        documentDto.setCoverage((String) o[i++]);
-        documentDto.setRights((String) o[i++]);
-        documentDto.setCreateTimestamp(((Timestamp) o[i++]).getTime());
-        documentDto.setUpdateTimestamp(((Timestamp) o[i++]).getTime());
-        documentDto.setLanguage((String) o[i++]);
+        documentDto.setName((String) o[i++]);
+        documentDto.setAdditionalNotes((String) o[i++]);
+        documentDto.setGender((String) o[i++]);
+        documentDto.setCountry((String) o[i++]);
+        documentDto.setRace((String) o[i++]);
+        documentDto.setEmail((String) o[i++]);
+        documentDto.setApplicationDate((String) o[i++]);
+        documentDto.setResume(((DocumentDto) o[i++]).getResume());
+        documentDto.setTags((List<String>) o[i++]);
+        documentDto.setGradMajor((String) o[i++]);
+        documentDto.setUndergradUniv((String) o[i++]);
+        documentDto.setMajor((String) o[i++]);
+        documentDto.setMinor((String) o[i++]);
+        documentDto.setGPA((Float) o[i++]);
+        documentDto.setMCAT(((Number) o[i++]).intValue());
+        documentDto.setLSAT(((Number) o[i++]).intValue());
+        documentDto.setGRE(((Number) o[i++]).intValue());
+        documentDto.setGMAT(((Number) o[i++]).intValue());
         documentDto.setShared(((Number) o[i++]).intValue() > 0);
         documentDto.setFileCount(((Number) o[i++]).intValue());
         documentDto.setCreator((String) o[i]);
@@ -203,19 +208,24 @@ public class DocumentDao {
         Document documentDb = q.getSingleResult();
 
         // Update the document
-        documentDb.setTitle(document.getTitle());
-        documentDb.setDescription(document.getDescription());
-        documentDb.setSubject(document.getSubject());
-        documentDb.setIdentifier(document.getIdentifier());
-        documentDb.setPublisher(document.getPublisher());
-        documentDb.setFormat(document.getFormat());
-        documentDb.setSource(document.getSource());
-        documentDb.setType(document.getType());
-        documentDb.setCoverage(document.getCoverage());
-        documentDb.setRights(document.getRights());
-        documentDb.setCreateDate(document.getCreateDate());
-        documentDb.setLanguage(document.getLanguage());
-        documentDb.setFileId(document.getFileId());
+        documentDb.setName(document.getName());
+        documentDb.setAdditionalNotes(document.getAdditionalNotes());
+        documentDb.setGender(document.getGender());
+        documentDb.setCountry(document.getCountry());
+        documentDb.setRace(document.getRace());
+        documentDb.setEmail(document.getEmail());
+        documentDb.setApplicationDate((Timestamp)document.getApplicationDate());
+        documentDb.setResume(document.getResume());
+        documentDb.setTags(document.getTags());
+        documentDb.setGradMajor(document.getGradMajor());
+        documentDb.setUndergradUniv(document.getUndergradUniv());
+        documentDb.setMajor(document.getMajor());
+        documentDb.setMinor(document.getMinor());
+        documentDb.setGPA(document.getGPA());
+        documentDb.setMCAT(document.getMCAT());
+        documentDb.setLSAT(document.getLSAT());
+        documentDb.setGRE(document.getGRE());
+        documentDb.setGMAT(document.getGMAT());
         documentDb.setUpdateDate(new Date());
         
         // Create audit log

@@ -1,4 +1,5 @@
 package com.sismics.docs.core.dao.dto;
+import java.util.List;
 
 /**
  * Document DTO.
@@ -6,6 +7,7 @@ package com.sismics.docs.core.dao.dto;
  * @author bgamard 
  */
 public class DocumentDto {
+    
     /**
      * Document ID.
      */
@@ -17,44 +19,20 @@ public class DocumentDto {
     private String fileId;
 
     /**
-     * Title.
+     * Student.
      */
-    private String title;
+    private String applicant;
     
     /**
-     * Description.
+     * AdditionalNotes.
      */
-    private String description;
+    private String additional_notes;
     
-    /**
-     * Subject.
-     */
-    private String subject;
     
     /**
      * Identifier.
      */
     private String identifier;
-    
-    /**
-     * Publisher.
-     */
-    private String publisher;
-    
-    /**
-     * Format.
-     */
-    private String format;
-    
-    /**
-     * Source.
-     */
-    private String source;
-    
-    /**
-     * Type.
-     */
-    private String type;
     
     /**
      * Coverage.
@@ -111,6 +89,87 @@ public class DocumentDto {
      */
     private String highlight;
 
+    /**
+     * Gender.
+     */
+    private String gender;
+
+    /**
+     * Country.
+     */
+    private String country;
+
+    /**
+     * Race.
+     */
+    private String race;
+
+    /**
+     * Email.
+     */
+    private String email;
+
+    /**
+     * Resume.
+     */
+    private DocumentDto resume;
+
+    /**
+     * Application date.
+     */
+    private String creation_date;
+
+    /**
+     * gradMajor.
+     */
+    private String desired_program;
+
+    /**
+     * Tags.
+     */
+    private List<String> tags;
+
+    /**
+     * Unergraduate university.
+     */
+    private String undergrad_univ;
+
+    /**
+     * Undergrad major.
+     */
+    private String major;
+    
+    /**
+     * Undergrad minor.
+     */
+    private String minor;
+
+    /**
+     * GPA.
+     */
+    private Float gpa;
+
+    /**
+     * MCAT .
+     */
+    private Integer mcat;
+
+    /**
+     * LSAT.
+     */
+    private Integer lsat;
+
+    /**
+     * GRE.
+     */
+    private Integer gre;
+
+    /**
+     * GMAT.
+     */
+    private Integer gmat;
+    
+
     public String getId() {
         return id;
     }
@@ -128,28 +187,30 @@ public class DocumentDto {
         return this;
     }
 
-    public String getTitle() {
-        return title;
+    public String getName() {
+        return applicant;
     }
 
-    public void setTitle(String title) {
-        this.title = title;
+    public void setName(String applicant) {
+        this.applicant = applicant;
     }
 
-    public String getDescription() {
-        return description;
+
+    public String getEmail() {
+        return email;
     }
 
-    public void setDescription(String description) {
-        this.description = description;
+    public void setEmail(String email) {
+        this.email = email;
     }
 
-    public String getSubject() {
-        return subject;
+
+    public DocumentDto getResume() {
+        return resume;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setResume(DocumentDto resume) {
+        this.resume = resume;
     }
 
     public String getIdentifier() {
@@ -158,50 +219,6 @@ public class DocumentDto {
 
     public void setIdentifier(String identifier) {
         this.identifier = identifier;
-    }
-    
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(String coverage) {
-        this.coverage = coverage;
-    }
-
-    public String getRights() {
-        return rights;
     }
 
     public void setRights(String rights) {
@@ -214,6 +231,10 @@ public class DocumentDto {
 
     public void setCreateTimestamp(Long createTimestamp) {
         this.createTimestamp = createTimestamp;
+    }
+
+    public String getRights() {
+        return rights;
     }
 
     public Boolean getShared() {
@@ -231,6 +252,129 @@ public class DocumentDto {
     public void setLanguage(String language) {
         this.language = language;
     }
+
+     public String getAdditionalNotes() {
+        return additional_notes;
+    }
+
+    public void setAdditionalNotes(String additional_notes) {
+        this.additional_notes = additional_notes;
+    }
+
+    public List<String> getTags() {
+        return tags;
+    }
+
+    public void setTags(List<String> tags) {
+        this.tags = tags;
+    }
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender; 
+    }
+
+    public String getCountry() {
+        return country; 
+    }
+
+    public void setCountry(String country) {
+        this.country = country; 
+    }
+
+
+    public String getRace() {
+        return race; 
+    }
+
+    public void setApplicationDate(String creation_date) {
+        this.creation_date = creation_date; 
+    }
+
+    public String getApplicationDate() {
+        return creation_date; 
+    }
+
+    public void setRace(String race) {
+        this.race = race; 
+    }
+
+    public String getGradMajor() {
+        return desired_program; 
+    }
+
+    public Integer getGMAT() {
+        return gmat;
+    }
+
+    public void setGradMajor(String desired_program) {
+        this.desired_program = desired_program; 
+    }
+
+    public String getUndergradUniv() {
+        return undergrad_univ; 
+    }
+
+    public void setUndergradUniv(String undergrad_univ) { 
+        this.undergrad_univ = undergrad_univ; 
+    }
+
+    public String getMajor() {
+        return major; 
+    }
+
+    public void setMajor(String major) {
+        this.major = major; 
+    }
+
+    public String getMinor() {
+        return minor; 
+    }
+
+    public void setMinor(String minor) {
+        this.minor = minor;
+    }
+
+    public Float getGPA() {
+        return gpa; 
+    }
+
+    public void setGPA(Float gpa) {
+        this.gpa = gpa; 
+    }
+
+    public Integer getMCAT() {
+        return mcat; 
+    }
+
+    public void setMCAT(Integer mcat) {
+        this.mcat = mcat;
+    }
+
+    public Integer getLSAT() {
+        return lsat; 
+    }
+
+    public void setLSAT(Integer lsat) {
+        this.lsat = lsat;
+    }
+
+    public Integer getGRE() {
+        return gre; 
+    }
+
+    public void setGRE(Integer gre) {
+        this.gre = gre;
+    }
+
+
+    public void setGMAT(Integer gmat) {
+        this.gmat = gmat;
+
+    }
+
 
     public Integer getFileCount() {
         return fileCount;

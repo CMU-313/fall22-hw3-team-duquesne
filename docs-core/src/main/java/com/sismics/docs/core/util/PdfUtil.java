@@ -64,37 +64,13 @@ public class PdfUtil {
                 doc.addPage(page);
                 try (PdfPage pdfPage = new PdfPage(doc, page, margin * Constants.MM_PER_INCH, DocsPDType1Font.HELVETICA, 12)) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    pdfPage.addText(documentDto.getTitle(), true, DocsPDType1Font.HELVETICA_BOLD, 16)
+                    pdfPage.addText(documentDto.getName(), true, DocsPDType1Font.HELVETICA_BOLD, 16)
                         .newLine()
                         .addText("Created by " + documentDto.getCreator()
                             + " on " + dateFormat.format(new Date(documentDto.getCreateTimestamp())), true)
                         .newLine()
-                        .addText(documentDto.getDescription())
+                        .addText(documentDto.getAdditionalNotes())
                         .newLine();
-                    if (!Strings.isNullOrEmpty(documentDto.getSubject())) {
-                        pdfPage.addText("Subject: " + documentDto.getSubject());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getIdentifier())) {
-                        pdfPage.addText("Identifier: " + documentDto.getIdentifier());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getPublisher())) {
-                        pdfPage.addText("Publisher: " + documentDto.getPublisher());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getFormat())) {
-                        pdfPage.addText("Format: " + documentDto.getFormat());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getSource())) {
-                        pdfPage.addText("Source: " + documentDto.getSource());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getType())) {
-                        pdfPage.addText("Type: " + documentDto.getType());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getCoverage())) {
-                        pdfPage.addText("Coverage: " + documentDto.getCoverage());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getRights())) {
-                        pdfPage.addText("Rights: " + documentDto.getRights());
-                    }
                     pdfPage.addText("Language: " + documentDto.getLanguage())
                         .newLine()
                         .addText("Files in this document : " + fileList.size(), false, DocsPDType1Font.HELVETICA_BOLD, 12);

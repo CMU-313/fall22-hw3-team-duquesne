@@ -240,7 +240,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
         List<String> criteriaList = new ArrayList<>();
         Map<String, String> documentSearchMap = Maps.newHashMap();
 
-        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C c0, d.DOC_TITLE_C c1, d.DOC_DESCRIPTION_C c2, d.DOC_CREATEDATE_D c3, d.DOC_LANGUAGE_C c4, d.DOC_IDFILE_C, ");
+        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C c0, d.DOC_NAME_C c1, d.DOC_ADDITIONAL_NOTES_C c2, d.DOC_CREATEDATE_D c3, d.DOC_LANGUAGE_C c4, d.DOC_IDFILE_C, ");
         sb.append(" s.count c5, ");
         sb.append(" f.count c6, ");
         sb.append(" rs2.RTP_ID_C c7, rs2.RTP_NAME_C, d.DOC_UPDATEDATE_D c8 ");
@@ -296,8 +296,8 @@ public class LuceneIndexingHandler implements IndexingHandler {
             parameterMap.put("updateDateMax", criteria.getUpdateDateMax());
         }
         if (criteria.getTitle() != null) {
-            criteriaList.add("d.DOC_TITLE_C = :title");
-            parameterMap.put("title", criteria.getTitle());
+            criteriaList.add("d.DOC_NAME_C = :name");
+            parameterMap.put("name", criteria.getTitle());
         }
         if (!criteria.getTagIdList().isEmpty()) {
             int index = 0;
@@ -362,8 +362,8 @@ public class LuceneIndexingHandler implements IndexingHandler {
             int i = 0;
             DocumentDto documentDto = new DocumentDto();
             documentDto.setId((String) o[i++]);
-            documentDto.setTitle((String) o[i++]);
-            documentDto.setDescription((String) o[i++]);
+            documentDto.setName((String) o[i++]);
+            documentDto.setAdditionalNotes((String) o[i++]);
             documentDto.setCreateTimestamp(((Timestamp) o[i++]).getTime());
             documentDto.setLanguage((String) o[i++]);
             documentDto.setFileId((String) o[i++]);
@@ -395,7 +395,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
         }
 
         FuzzySuggester suggester = new FuzzySuggester(directory, "", new StandardAnalyzer());
-        LuceneDictionary dictionary = new LuceneDictionary(directoryReader, "title");
+        LuceneDictionary dictionary = new LuceneDictionary(directoryReader, "name");
         suggester.build(dictionary);
         int lastIndex = search.lastIndexOf(' ');
         String suggestQuery = search.substring(Math.max(lastIndex, 0));
@@ -422,18 +422,11 @@ public class LuceneIndexingHandler implements IndexingHandler {
 
         // Search on documents and files
         BooleanQuery query = new BooleanQuery.Builder()
-                .add(buildQueryParser(analyzer, "title").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "description").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "subject").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "identifier").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "publisher").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "format").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "source").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "type").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "coverage").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "rights").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "filename").parse(searchQuery), BooleanClause.Occur.SHOULD)
-                .add(buildQueryParser(analyzer, "content").parse(fullSearchQuery), BooleanClause.Occur.SHOULD)
+                .add(buildQueryParser(analyzer, "name").parse(searchQuery), BooleanClause.Occur.SHOULD)
+                .add(buildQueryParser(analyzer, "additionalNotes").parse(searchQuery), BooleanClause.Occur.SHOULD)
+                .add(buildQueryParser(analyzer, "undergradUniv").parse(searchQuery), BooleanClause.Occur.SHOULD)
+                .add(buildQueryParser(analyzer, "major").parse(searchQuery), BooleanClause.Occur.SHOULD)
+                .add(buildQueryParser(analyzer, "minor").parse(searchQuery), BooleanClause.Occur.SHOULD)
                 .build();
 
         // Search
@@ -498,33 +491,18 @@ public class LuceneIndexingHandler implements IndexingHandler {
         org.apache.lucene.document.Document luceneDocument = new org.apache.lucene.document.Document();
         luceneDocument.add(new StringField("id", document.getId(), Field.Store.YES));
         luceneDocument.add(new StringField("doctype", "document", Field.Store.YES));
-        luceneDocument.add(new TextField("title", document.getTitle(), Field.Store.NO));
-        if (document.getDescription() != null) {
-            luceneDocument.add(new TextField("description", document.getDescription(), Field.Store.NO));
+        luceneDocument.add(new TextField("name", document.getName(), Field.Store.NO));
+        if (document.getGradMajor() != null) {
+            luceneDocument.add(new TextField("gradMajor", document.getGradMajor(), Field.Store.NO));
         }
-        if (document.getSubject() != null) {
-            luceneDocument.add(new TextField("subject", document.getSubject(), Field.Store.NO));
+        if (document.getUndergradUniv() != null) {
+            luceneDocument.add(new TextField("undergradUniv", document.getUndergradUniv(), Field.Store.NO));
         }
-        if (document.getIdentifier() != null) {
-            luceneDocument.add(new TextField("identifier", document.getIdentifier(), Field.Store.NO));
+        if (document.getMajor() != null) {
+            luceneDocument.add(new TextField("major", document.getMajor(), Field.Store.NO));
         }
-        if (document.getPublisher() != null) {
-            luceneDocument.add(new TextField("publisher", document.getPublisher(), Field.Store.NO));
-        }
-        if (document.getFormat() != null) {
-            luceneDocument.add(new TextField("format", document.getFormat(), Field.Store.NO));
-        }
-        if (document.getSource() != null) {
-            luceneDocument.add(new TextField("source", document.getSource(), Field.Store.NO));
-        }
-        if (document.getType() != null) {
-            luceneDocument.add(new TextField("type", document.getType(), Field.Store.NO));
-        }
-        if (document.getCoverage() != null) {
-            luceneDocument.add(new TextField("coverage", document.getCoverage(), Field.Store.NO));
-        }
-        if (document.getRights() != null) {
-            luceneDocument.add(new TextField("rights", document.getRights(), Field.Store.NO));
+        if (document.getMinor() != null) {
+            luceneDocument.add(new TextField("minor", document.getMinor(), Field.Store.NO));
         }
 
         return luceneDocument;
