@@ -198,15 +198,13 @@ public class DocumentResource extends BaseResource {
         }
         
         // Below is specific to GET /document/id
-        document.add("subject", JsonUtil.nullable(documentDto.getSubject()));
-        document.add("identifier", JsonUtil.nullable(documentDto.getIdentifier()));
-        document.add("publisher", JsonUtil.nullable(documentDto.getPublisher()));
-        document.add("format", JsonUtil.nullable(documentDto.getFormat()));
-        document.add("source", JsonUtil.nullable(documentDto.getSource()));
-        document.add("type", JsonUtil.nullable(documentDto.getType()));
-        document.add("coverage", JsonUtil.nullable(documentDto.getCoverage()));
-        document.add("rights", JsonUtil.nullable(documentDto.getRights()));
-        document.add("creator", documentDto.getCreator());
+        document.add("undergrad_univ", JsonUtil.nullable(documentDto.getUndergradUniv()));
+        document.add("major", JsonUtil.nullable(documentDto.getMajor()));
+        document.add("minor", JsonUtil.nullable(documentDto.getMinor()));
+        document.add("mcat", JsonUtil.nullable(documentDto.getMCAT()));
+        document.add("lsat", JsonUtil.nullable(documentDto.getLSAT()));
+        document.add("gre", JsonUtil.nullable(documentDto.getGRE()));
+        document.add("gmat", JsonUtil.nullable(documentDto.getGMAT()));
 
         // Add ACL
         AclUtil.addAcls(document, documentId, getTargetIdList(shareId));
@@ -459,7 +457,7 @@ public class DocumentResource extends BaseResource {
                     .add("file_id", JsonUtil.nullable(documentDto.getFileId()))
                     .add("title", documentDto.getTitle())
                     .add("description", JsonUtil.nullable(documentDto.getDescription()))
-                    .add("create_date", documentDto.getCreateTimestamp())
+                    .add("create_date", documentDto.getApplicationDate())
                     .add("update_date", documentDto.getUpdateTimestamp())
                     .add("language", documentDto.getLanguage())
                     .add("shared", documentDto.getShared())
@@ -701,40 +699,41 @@ public class DocumentResource extends BaseResource {
      *
      * @param title Title
      * @param description Description
-     * @param subject Subject
-     * @param identifier Identifier
-     * @param publisher Publisher
-     * @param format Format
-     * @param source Source
-     * @param type Type
-     * @param coverage Coverage
-     * @param rights Rights
-     * @param tagList Tags
-     * @param relationList Relations
-     * @param metadataIdList Metadata ID list
-     * @param metadataValueList Metadata value list
-     * @param language Language
-     * @param createDateStr Creation date
+     * @param gender 
+     * @param race Publisher
+     * @param email Format
+     * @param creation_dateStr Source
+     * @param desired_program Coverage
+     * @param undergrad_univ Rights
+     * @param major Relations
+     * @param minor Metadata ID list
+     * @param gpa Metadata value list
+     * @param mcat Language
+     * @param lsat Creation date
+     * @param gre Creation date
+     * @param mcat Creation date
+     * @param language Creation date
      * @return Response
      */
     @PUT
     public Response add(
-            @FormParam("title") String title,
+             @FormParam("title") String title,
             @FormParam("description") String description,
-            @FormParam("subject") String subject,
-            @FormParam("identifier") String identifier,
-            @FormParam("publisher") String publisher,
-            @FormParam("format") String format,
-            @FormParam("source") String source,
-            @FormParam("type") String type,
-            @FormParam("coverage") String coverage,
-            @FormParam("rights") String rights,
-            @FormParam("tags") List<String> tagList,
-            @FormParam("relations") List<String> relationList,
-            @FormParam("metadata_id") List<String> metadataIdList,
-            @FormParam("metadata_value") List<String> metadataValueList,
-            @FormParam("language") String language,
-            @FormParam("create_date") String createDateStr) {
+            @FormParam("gender") String gender,
+            @FormParam("state") String state,
+            @FormParam("race") String race,
+            @FormParam("email") String email, 
+            @FormParam("creation_Date") Date creation_dateStr,
+            @FormParam("desired_program") String desired_program,
+            @FormParam("undergrad_univ")String undergrad_univ,
+            @FormParam("major") String major,
+            @FormParam("minor") String minor,
+            @FormParam("gpa") Float gpa,
+            @FormParam("mcat") Integer mcat,
+            @FormParam("lsat") Integer lsat, 
+            @FormParam("gre") Integer gre, 
+            @FormParam("gmat") Integer gmat,
+            @FormParam("language") String language) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -743,15 +742,12 @@ public class DocumentResource extends BaseResource {
         title = ValidationUtil.validateLength(title, "title", 1, 100, false);
         language = ValidationUtil.validateLength(language, "language", 3, 7, false);
         description = ValidationUtil.validateLength(description, "description", 0, 4000, true);
-        subject = ValidationUtil.validateLength(subject, "subject", 0, 500, true);
-        identifier = ValidationUtil.validateLength(identifier, "identifier", 0, 500, true);
-        publisher = ValidationUtil.validateLength(publisher, "publisher", 0, 500, true);
-        format = ValidationUtil.validateLength(format, "format", 0, 500, true);
-        source = ValidationUtil.validateLength(source, "source", 0, 500, true);
-        type = ValidationUtil.validateLength(type, "type", 0, 100, true);
-        coverage = ValidationUtil.validateLength(coverage, "coverage", 0, 100, true);
-        rights = ValidationUtil.validateLength(rights, "rights", 0, 100, true);
-        Date createDate = ValidationUtil.validateDate(createDateStr, "create_date", true);
+        gender = ValidationUtil.validateLength(gender, "gender", 0, 500, true);
+        state = ValidationUtil.validateLength(state, "state", 0, 500, true);
+        race = ValidationUtil.validateLength(race, "race", 0, 500, true);
+        desired_program = ValidationUtil.validateLength(desired_program, "desired_program", 0, 100, true);
+        undergrad_univ = ValidationUtil.validateLength(undergrad_univ, "undergrad_univ", 0, 100, true);
+        major = ValidationUtil.validateLength(major, "major", 0, 100, true);
         if (!Constants.SUPPORTED_LANGUAGES.contains(language)) {
             throw new ClientException("ValidationError", MessageFormat.format("{0} is not a supported language", language));
         }
@@ -761,36 +757,32 @@ public class DocumentResource extends BaseResource {
         document.setUserId(principal.getId());
         document.setTitle(title);
         document.setDescription(description);
-        document.setSubject(subject);
-        document.setIdentifier(identifier);
-        document.setPublisher(publisher);
-        document.setFormat(format);
-        document.setSource(source);
-        document.setType(type);
-        document.setCoverage(coverage);
-        document.setRights(rights);
-        document.setLanguage(language);
-        if (createDate == null) {
-            document.setCreateDate(new Date());
+        document.setGender(gender);
+        document.setRace(race);
+        document.setEmail(email);
+        document.setUndergradUniv(undergrad_univ);
+        document.setMinor(minor);
+        document.setGPA(gpa);
+        document.setMCAT(mcat);
+        document.setLSAT(lsat);
+        document.setGRE(gre);
+        document.setGMAT(gmat);
+        if (creation_dateStr == null) {
+            document.setApplicationDate(new Date());
         } else {
-            document.setCreateDate(createDate);
+            document.setApplicationDate(creation_dateStr);
+        }
+        if (creation_dateStr == null) {
+            document.setApplicationDate(new Date());
+        } else {
+            document.setApplicationDate(creation_dateStr);
         }
 
         // Save the document, create the base ACLs
         document = DocumentUtil.createDocument(document, principal.getId());
 
-        // Update tags
-        updateTagList(document.getId(), tagList);
 
         // Update relations
-        updateRelationList(document.getId(), relationList);
-
-        // Update custom metadata
-        try {
-            MetadataUtil.updateMetadata(document.getId(), metadataIdList, metadataValueList);
-        } catch (Exception e) {
-            throw new ClientException("ValidationError", e.getMessage());
-        }
 
         // Raise a document created event
         DocumentCreatedAsyncEvent documentCreatedAsyncEvent = new DocumentCreatedAsyncEvent();
@@ -843,20 +835,21 @@ public class DocumentResource extends BaseResource {
             @PathParam("id") String id,
             @FormParam("title") String title,
             @FormParam("description") String description,
-            @FormParam("subject") String subject,
-            @FormParam("identifier") String identifier,
-            @FormParam("publisher") String publisher,
-            @FormParam("format") String format,
-            @FormParam("source") String source,
-            @FormParam("type") String type,
-            @FormParam("coverage") String coverage,
-            @FormParam("rights") String rights,
-            @FormParam("tags") List<String> tagList,
-            @FormParam("relations") List<String> relationList,
-            @FormParam("metadata_id") List<String> metadataIdList,
-            @FormParam("metadata_value") List<String> metadataValueList,
-            @FormParam("language") String language,
-            @FormParam("create_date") String createDateStr) {
+            @FormParam("gender") String gender,
+            @FormParam("state") String state,
+            @FormParam("race") String race,
+            @FormParam("email") String email, 
+            @FormParam("creation_Date") String creation_dateStr,
+            @FormParam("desired_program") String desired_program,
+            @FormParam("undergrad_univ")String undergrad_univ,
+            @FormParam("major") String major,
+            @FormParam("minor") String minor,
+            @FormParam("gpa") Float gpa,
+            @FormParam("mcat") Integer mcat,
+            @FormParam("lsat") Integer lsat, 
+            @FormParam("gre") Integer gre, 
+            @FormParam("gmat") Integer gmat,
+            @FormParam("language") String language) {
         if (!authenticate()) {
             throw new ForbiddenClientException();
         }
@@ -865,15 +858,12 @@ public class DocumentResource extends BaseResource {
         title = ValidationUtil.validateLength(title, "title", 1, 100, false);
         language = ValidationUtil.validateLength(language, "language", 3, 7, false);
         description = ValidationUtil.validateLength(description, "description", 0, 4000, true);
-        subject = ValidationUtil.validateLength(subject, "subject", 0, 500, true);
-        identifier = ValidationUtil.validateLength(identifier, "identifier", 0, 500, true);
-        publisher = ValidationUtil.validateLength(publisher, "publisher", 0, 500, true);
-        format = ValidationUtil.validateLength(format, "format", 0, 500, true);
-        source = ValidationUtil.validateLength(source, "source", 0, 500, true);
-        type = ValidationUtil.validateLength(type, "type", 0, 100, true);
-        coverage = ValidationUtil.validateLength(coverage, "coverage", 0, 100, true);
-        rights = ValidationUtil.validateLength(rights, "rights", 0, 100, true);
-        Date createDate = ValidationUtil.validateDate(createDateStr, "create_date", true);
+        gender = ValidationUtil.validateLength(gender, "gender", 0, 500, true);
+        state = ValidationUtil.validateLength(state, "state", 0, 500, true);
+        race = ValidationUtil.validateLength(race, "race", 0, 500, true);
+        desired_program = ValidationUtil.validateLength(desired_program, "desired_program", 0, 100, true);
+        undergrad_univ = ValidationUtil.validateLength(undergrad_univ, "undergrad_univ", 0, 100, true);
+        major = ValidationUtil.validateLength(major, "major", 0, 100, true);
         if (language != null && !Constants.SUPPORTED_LANGUAGES.contains(language)) {
             throw new ClientException("ValidationError", MessageFormat.format("{0} is not a supported language", language));
         }
@@ -894,35 +884,16 @@ public class DocumentResource extends BaseResource {
         // Update the document
         document.setTitle(title);
         document.setDescription(description);
-        document.setSubject(subject);
-        document.setIdentifier(identifier);
-        document.setPublisher(publisher);
-        document.setFormat(format);
-        document.setSource(source);
-        document.setType(type);
-        document.setCoverage(coverage);
-        document.setRights(rights);
-        document.setLanguage(language);
-        if (createDate == null) {
-            document.setCreateDate(new Date());
-        } else {
-            document.setCreateDate(createDate);
-        }
+        document.setGender(gender);
+        document.setRace(race);
+        document.setEmail(email);
+        document.setApplicationDate(new Date());
         
         documentDao.update(document, principal.getId());
         
-        // Update tags
-        updateTagList(id, tagList);
         
-        // Update relations
-        updateRelationList(id, relationList);
 
         // Update custom metadata
-        try {
-            MetadataUtil.updateMetadata(document.getId(), metadataIdList, metadataValueList);
-        } catch (Exception e) {
-            throw new ClientException("ValidationError", e.getMessage());
-        }
 
         // Raise a document updated event
         DocumentUpdatedAsyncEvent documentUpdatedAsyncEvent = new DocumentUpdatedAsyncEvent();
@@ -996,14 +967,11 @@ public class DocumentResource extends BaseResource {
             document.setTitle(StringUtils.abbreviate(mailContent.getSubject(), 100));
         }
         document.setDescription(StringUtils.abbreviate(mailContent.getMessage(), 4000));
-        document.setSubject(StringUtils.abbreviate(mailContent.getSubject(), 500));
-        document.setFormat("EML");
-        document.setSource("Email");
         document.setLanguage(ConfigUtil.getConfigStringValue(ConfigType.DEFAULT_LANGUAGE));
         if (mailContent.getDate() == null) {
-            document.setCreateDate(new Date());
+            document.setApplicationDate(new Date());
         } else {
-            document.setCreateDate(mailContent.getDate());
+            document.setApplicationDate(mailContent.getDate());
         }
 
         // Save the document, create the base ACLs

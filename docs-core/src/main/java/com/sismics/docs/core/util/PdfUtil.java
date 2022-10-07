@@ -71,30 +71,6 @@ public class PdfUtil {
                         .newLine()
                         .addText(documentDto.getDescription())
                         .newLine();
-                    if (!Strings.isNullOrEmpty(documentDto.getSubject())) {
-                        pdfPage.addText("Subject: " + documentDto.getSubject());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getIdentifier())) {
-                        pdfPage.addText("Identifier: " + documentDto.getIdentifier());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getPublisher())) {
-                        pdfPage.addText("Publisher: " + documentDto.getPublisher());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getFormat())) {
-                        pdfPage.addText("Format: " + documentDto.getFormat());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getSource())) {
-                        pdfPage.addText("Source: " + documentDto.getSource());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getType())) {
-                        pdfPage.addText("Type: " + documentDto.getType());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getCoverage())) {
-                        pdfPage.addText("Coverage: " + documentDto.getCoverage());
-                    }
-                    if (!Strings.isNullOrEmpty(documentDto.getRights())) {
-                        pdfPage.addText("Rights: " + documentDto.getRights());
-                    }
                     pdfPage.addText("Language: " + documentDto.getLanguage())
                         .newLine()
                         .addText("Files in this document : " + fileList.size(), false, DocsPDType1Font.HELVETICA_BOLD, 12);

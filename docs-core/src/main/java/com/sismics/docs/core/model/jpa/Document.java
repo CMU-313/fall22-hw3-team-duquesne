@@ -7,6 +7,7 @@ import javax.persistence.Entity;
 import javax.persistence.Id;
 import javax.persistence.Table;
 import java.util.Date;
+import java.util.List;
 
 /**
  * Document entity.
@@ -26,7 +27,7 @@ public class Document implements Loggable {
     /**
      * User ID.
      */
-    @Column(name = "DOC_IDUSER_C", nullable = false, length = 36)
+    @Column(name = "DOC_IDUSER_C")
     private String userId;
     
     /**
@@ -38,79 +39,25 @@ public class Document implements Loggable {
     /**
      * Language (ISO 639-9).
      */
-    @Column(name = "DOC_LANGUAGE_C", nullable = false, length = 3)
+    @Column(name = "DOC_LANGUAGE_C")
     private String language;
-    
-    /**
-     * Title.
+
+    /** 
+     * Name
      */
-    @Column(name = "DOC_TITLE_C", nullable = false, length = 100)
-    private String title;
+    @Column(name = "DOC_TITLE_C")
+    private String title; 
     
     /**
-     * Description.
+     * Additional notes.
      */
     @Column(name = "DOC_DESCRIPTION_C", length = 4000)
     private String description;
-    
-    /**
-     * Subject.
-     */
-    @Column(name = "DOC_SUBJECT_C", length = 500)
-    private String subject;
-    
-    /**
-     * Identifer.
-     */
-    @Column(name = "DOC_IDENTIFIER_C", length = 500)
-    private String identifier;
-    
-    /**
-     * Publisher.
-     */
-    @Column(name = "DOC_PUBLISHER_C", length = 500)
-    private String publisher;
-    
-    /**
-     * Format.
-     */
-    @Column(name = "DOC_FORMAT_C", length = 500)
-    private String format;
-    
-    /**
-     * Source.
-     */
-    @Column(name = "DOC_SOURCE_C", length = 500)
-    private String source;
-    
-    /**
-     * Type.
-     */
-    @Column(name = "DOC_TYPE_C", length = 100)
-    private String type;
-    
-    /**
-     * Coverage.
-     */
-    @Column(name = "DOC_COVERAGE_C", length = 100)
-    private String coverage;
-    
-    /**
-     * Rights.
-     */
-    @Column(name = "DOC_RIGHTS_C", length = 100)
-    private String rights;
-    
-    /**
-     * Creation date.
-     */
-    @Column(name = "DOC_CREATEDATE_D", nullable = false)
-    private Date createDate;
 
     /**
      * Creation date.
      */
-    @Column(name = "DOC_UPDATEDATE_D", nullable = false)
+    @Column(name = "DOC_UPDATEDATE_D")
     private Date updateDate;
 
     /**
@@ -118,21 +65,93 @@ public class Document implements Loggable {
      */
     @Column(name = "DOC_DELETEDATE_D")
     private Date deleteDate;
-    
+
+    /**
+     * Gender. 
+     */
+    @Column(name = "DOC_GENDER_C", length = 100)
+    private String gender; 
+
+    /**
+     * Race. 
+     */
+    @Column(name = "DOC_RACE_C", length = 100)
+    private String race; 
+
+    /**
+     * Email 
+     */
+    @Column(name = "DOC_EMAIL_C")
+    private String email;
+
+    /**
+    * Application Date.
+    */
+    @Column(name = "DOC_CREATEDATE_D", length = 100)
+    private Date creation_date; 
+
+
+    /**
+     * Undergraduate university. 
+     */
+    @Column(name = "DOC_UNDERGRAD_UNIV_C", length = 100)
+    private String undergrad_univ; 
+
+    /**
+     * Major. 
+     */
+    @Column(name = "DOC_MAJOR_C", length = 100)
+    private String major; 
+
+    /**
+     * Major. 
+     */
+    @Column(name = "DOC_MINOR_C", length = 100)
+    private String minor; 
+
+    /**
+     * GPA. 
+     */
+    @Column(name = "DOC_GPA_C", length = 100)
+    private Float gpa; 
+
+    /**
+     * MCAT. 
+     */
+    @Column(name = "DOC_MCAT_C", length = 100)
+    private Integer mcat; 
+
+    /**
+     * LSAT. 
+     */
+    @Column(name = "DOC_LSAT_C", length = 100)
+    private Integer lsat; 
+
+    /**
+     * GRE. 
+     */
+    @Column(name = "DOC_GRE_C", length = 100)
+    private Integer gre; 
+
+    /**
+     * GMAT. 
+     */
+    @Column(name = "DOC_GMAT_C", length = 100)
+    private Integer gmat; 
+
+
+    /**
+     * shared. 
+     */
+    @Column(name = "DOC_SHARED_C", length = 100)
+    private String shared; 
+
     public String getId() {
         return id;
     }
 
     public void setId(String id) {
         this.id = id;
-    }
-    
-    public String getLanguage() {
-        return language;
-    }
-
-    public void setLanguage(String language) {
-        this.language = language;
     }
     
     public String getUserId() {
@@ -158,6 +177,7 @@ public class Document implements Loggable {
 
     public void setTitle(String title) {
         this.title = title;
+
     }
 
     public String getDescription() {
@@ -167,77 +187,119 @@ public class Document implements Loggable {
     public void setDescription(String description) {
         this.description = description;
     }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public void setGender(String gender) {
+        this.gender = gender; 
+    }
+
+
+    public String getRace() {
+        return race; 
+    }
+
+    public void setRace(String race) {
+        this.race = race; 
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email; 
+    }
+
+    public void setApplicationDate(Date creation_date) {
+        this.creation_date = creation_date; 
+    }
+
+    public Date getApplicationDate() {
+        return creation_date; 
+    }
+
+    public String getUndergradUniv() {
+        return undergrad_univ; 
+    }
+
+    public void setUndergradUniv(String undergrad_univ) { 
+        this.undergrad_univ = undergrad_univ; 
+    }
+
+    public String getMajor() {
+        return major; 
+    }
+
+    public void setMajor(String major) {
+        this.major = major; 
+    }
+
+    public Float getGPA() {
+        return gpa; 
+    }
+
+    public void setGPA(Float gpa) {
+        this.gpa = gpa; 
+    }
+
+    public String getMinor() {
+        return minor;  
+    }
+
+    public void setMinor(String minor) {
+        this.minor = minor;
+    }
+
+    public Integer getMCAT() {
+        return mcat; 
+    }
+
+    public void setMCAT(Integer mcat) {
+        this.mcat = mcat; 
+    }
+
+    public Integer getLSAT() {
+        return lsat; 
+    }
+
+    public void setLSAT(Integer lsat) {
+        this.lsat = lsat; 
+    }
+
+    public Integer getGRE() {
+        return gre;
+    }
+
+    public void setGRE(Integer gre) {
+        this.gre = gre;
+    }
+
+    public Integer getGMAT() {
+        return gmat; 
+    }
+
+    public void setGMAT(Integer gmat) {
+       this.gmat = gmat;
+    }
+
     
-    public String getSubject() {
-        return subject;
+    public String getLanguage() {
+        return language;
     }
 
-    public void setSubject(String subject) {
-        this.subject = subject;
+    public void setLanguage(String language) {
+        this.language = language;
     }
 
-    public String getIdentifier() {
-        return identifier;
+    public String getShared() {
+        return shared;
     }
-
-    public void setIdentifier(String identifier) {
-        this.identifier = identifier;
-    }
-    
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public String getFormat() {
-        return format;
-    }
-
-    public void setFormat(String format) {
-        this.format = format;
-    }
-
-    public String getSource() {
-        return source;
-    }
-
-    public void setSource(String source) {
-        this.source = source;
-    }
-
-    public String getType() {
-        return type;
-    }
-
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public String getCoverage() {
-        return coverage;
-    }
-
-    public void setCoverage(String coverage) {
-        this.coverage = coverage;
-    }
-
-    public String getRights() {
-        return rights;
-    }
-
-    public void setRights(String rights) {
-        this.rights = rights;
-    }
-
-    public Date getCreateDate() {
-        return createDate;
-    }
-
-    public void setCreateDate(Date createDate) {
-        this.createDate = createDate;
+ 
+    public void setShared(String shared) {
+        this.shared = shared;
     }
 
     @Override

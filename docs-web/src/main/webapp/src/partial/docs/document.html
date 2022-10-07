@@ -230,7 +230,7 @@
       <table class="row table table-hover table-documents" ng-show="displayMode == 'list'">
         <thead>
         <tr>
-          <th class="col-xs-6" ng-click="sortDocuments(1)">{{ 'document.title' | translate }} <span class="fas fa-chevron-{{ sortColumn == 1 ? (asc ? 'down' : 'up') : '' }}"></span></th>
+          <th class="col-xs-6" ng-click="sortDocuments(1)">{{ 'document.applicant' | translate }} <span class="fas fa-chevron-{{ sortColumn == 1 ? (asc ? 'down' : 'up') : '' }}"></span></th>
           <th class="col-xs-3" ng-click="sortDocuments(3)">{{ 'document.creation_date' | translate }} <span class="fas fa-chevron-{{ sortColumn == 3 ? (asc ? 'down' : 'up') : '' }}"></span></th>
         </tr>
         </thead>
@@ -250,13 +250,13 @@
 
         <tr ng-click="viewDocument(document.id)" ng-repeat="document in documents" ng-class="{ active: $stateParams.id == document.id }">
           <td colspan="2">
-            {{ document.title }} ({{ document.file_count }})
+            {{ document.applicant }} ({{ document.file_count }})
             <span class="fas fa-share" ng-if="document.shared" uib-tooltip="{{ 'document.shared' | translate }}"></span>
             <span class="fas fa-random" ng-if="document.active_route" uib-tooltip="{{ document.current_step_name }}"></span>
             <a href="#/document/view/{{ document.id }}" target="_blank" ng-click="$event.stopPropagation()"><span class="fas fa-link"></span></a>
 
             <div class="pull-right text-muted small" uib-tooltip="{{ 'document.last_updated' | translate: { date: document.update_date } }}">
-              {{ document.create_date | timeAgo: dateFormat }}
+              {{ document.creation_date | timeAgo: dateFormat }}
             </div>
 
             <div class="tags small">
@@ -291,8 +291,8 @@
 
               <div class="file-info hidden-md">
                 <div></div>
-                <div class="v-align file-name text-center" title="{{document.title}}">
-                  {{ document.title }} ({{ document.file_count }})
+                <div class="v-align file-name text-center" title="{{document.applicant}}">
+                  {{ document.applicant }} ({{ document.file_count }})
                   <span class="fas fa-share" ng-if="document.shared" uib-tooltip="{{ 'document.shared' | translate }}"></span>
                   <span class="fas fa-random" ng-if="document.active_route" uib-tooltip="{{ document.current_step_name }}"></span>
                 </div>
