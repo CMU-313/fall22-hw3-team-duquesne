@@ -240,7 +240,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
         List<String> criteriaList = new ArrayList<>();
         Map<String, String> documentSearchMap = Maps.newHashMap();
 
-        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C c0, d.DOC_NAME_C c1, d.DOC_ADDITIONAL_NOTES_C c2, d.DOC_CREATEDATE_D c3, d.DOC_LANGUAGE_C c4, d.DOC_IDFILE_C, ");
+        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C c0, d.DOC_TITLE_C c1, d.DOC_DESCRIPTION_C c2, d.DOC_CREATEDATE_D c3, d.DOC_LANGUAGE_C c4, d.DOC_IDFILE_C, ");
         sb.append(" s.count c5, ");
         sb.append(" f.count c6, ");
         sb.append(" rs2.RTP_ID_C c7, rs2.RTP_NAME_C, d.DOC_UPDATEDATE_D c8 ");
@@ -296,7 +296,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
             parameterMap.put("updateDateMax", criteria.getUpdateDateMax());
         }
         if (criteria.getTitle() != null) {
-            criteriaList.add("d.DOC_NAME_C = :name");
+            criteriaList.add("d.DOC_TITLE_C = :name");
             parameterMap.put("name", criteria.getTitle());
         }
         if (!criteria.getTagIdList().isEmpty()) {

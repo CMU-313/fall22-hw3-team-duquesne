@@ -87,7 +87,7 @@ public class DocumentDao {
         }
 
         EntityManager em = ThreadLocalContext.get().getEntityManager();
-        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C, d.DOC_NAME_C, d.DOC_ADDITIONAL_NOTES_C, d.DOC_GENDER_C, d.DOC_COUNTRY_C, d.DOC_RACE_C, d.DOC_EMAIL_C, d.DOC_APPLICATION_DATE_D, d.DOC_GRADMAJOR_C, d.DOC_UNDERGRAD_UNIV_C, d.DOC_MAJOR_C, d.DOC_MINOR_C, d.DOC_GPA_C, d.DOC_MCAT_C, d.DOC_LSAT_C, d.DOC_GRE_C, d.DOC_GMAT_C, ");
+        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C, d.DOC_TITLE_C, d.D_DESCRIPTION_C, d.DOC_GENDER_C, d.DOC_COUNTRY_C, d.DOC_RACE_C, d.DOC_EMAIL_C, d.DOC_CREATEDATE_D, d.DOC_GRADMAJOR_C, d.DOC_UNDERGRAD_UNIV_C, d.DOC_MAJOR_C, d.DOC_MINOR_C, d.DOC_GPA_C, d.DOC_MCAT_C, d.DOC_LSAT_C, d.DOC_GRE_C, d.DOC_GMAT_C, ");
         sb.append(" (select count(s.SHA_ID_C) from T_SHARE s, T_ACL ac where ac.ACL_SOURCEID_C = d.DOC_ID_C and ac.ACL_TARGETID_C = s.SHA_ID_C and ac.ACL_DELETEDATE_D is null and s.SHA_DELETEDATE_D is null) shareCount, ");
         sb.append(" (select count(f.FIL_ID_C) from T_FILE f where f.FIL_DELETEDATE_D is null and f.FIL_IDDOC_C = d.DOC_ID_C) fileCount, ");
         sb.append(" u.USE_USERNAME_C ");

@@ -51,13 +51,13 @@ public class Document implements Loggable {
     /** 
      * Name
      */
-    @Column(name = "DOC_NAME_C", nullable = false, length = 100)
+    @Column(name = "DOC_TITLE_C", nullable = false, length = 100)
     private String applicant; 
     
     /**
      * Additional notes.
      */
-    @Column(name = "DOC_ADDITIONAL_NOTES_C", length = 4000)
+    @Column(name = "DOC_DESCRIPTION_C", length = 4000)
     private String additionalNotes;
 
     /**
@@ -99,7 +99,7 @@ public class Document implements Loggable {
     /**
     * Application Date.
     */
-    @Column(name = "DOC_APPLICATION_DATE_D", nullable = false, length = 100)
+    @Column(name = "DOC_CREATEDATE_D", nullable = false, length = 100)
     private Date creation_date; 
 
    
