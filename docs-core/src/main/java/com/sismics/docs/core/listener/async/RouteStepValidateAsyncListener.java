@@ -43,7 +43,7 @@ public class RouteStepValidateAsyncListener {
             Map<String, Object> paramRootMap = new HashMap<>();
             paramRootMap.put("user_name", user.getUsername());
             paramRootMap.put("document_id", event.getDocument().getId());
-            paramRootMap.put("document_title", event.getDocument().getName());
+            paramRootMap.put("document_title", event.getDocument().getTitle());
 
             EmailUtil.sendEmail(Constants.EMAIL_TEMPLATE_ROUTE_STEP_VALIDATE, user, paramRootMap);
         });

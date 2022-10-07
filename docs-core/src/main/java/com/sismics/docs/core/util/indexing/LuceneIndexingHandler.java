@@ -240,7 +240,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
         List<String> criteriaList = new ArrayList<>();
         Map<String, String> documentSearchMap = Maps.newHashMap();
 
-        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C c0, d.DOC_NAME_C c1, d.DOC_ADDITIONAL_NOTES_C c2, d.DOC_CREATEDATE_D c3, d.DOC_LANGUAGE_C c4, d.DOC_IDFILE_C, ");
+        StringBuilder sb = new StringBuilder("select distinct d.DOC_ID_C c0, d.DOC_TITLE_C c1, d.DOC_DESCIRPTION_C c2, d.DOC_CREATEDATE_D c3, d.DOC_LANGUAGE_C c4, d.DOC_IDFILE_C, ");
         sb.append(" s.count c5, ");
         sb.append(" f.count c6, ");
         sb.append(" rs2.RTP_ID_C c7, rs2.RTP_NAME_C, d.DOC_UPDATEDATE_D c8 ");
@@ -362,8 +362,8 @@ public class LuceneIndexingHandler implements IndexingHandler {
             int i = 0;
             DocumentDto documentDto = new DocumentDto();
             documentDto.setId((String) o[i++]);
-            documentDto.setName((String) o[i++]);
-            documentDto.setAdditionalNotes((String) o[i++]);
+            documentDto.setTitle((String) o[i++]);
+            documentDto.setDescription((String) o[i++]);
             documentDto.setCreateTimestamp(((Timestamp) o[i++]).getTime());
             documentDto.setLanguage((String) o[i++]);
             documentDto.setFileId((String) o[i++]);
@@ -491,10 +491,7 @@ public class LuceneIndexingHandler implements IndexingHandler {
         org.apache.lucene.document.Document luceneDocument = new org.apache.lucene.document.Document();
         luceneDocument.add(new StringField("id", document.getId(), Field.Store.YES));
         luceneDocument.add(new StringField("doctype", "document", Field.Store.YES));
-        luceneDocument.add(new TextField("name", document.getName(), Field.Store.NO));
-        if (document.getGradMajor() != null) {
-            luceneDocument.add(new TextField("gradMajor", document.getGradMajor(), Field.Store.NO));
-        }
+        luceneDocument.add(new TextField("name", document.getTitle(), Field.Store.NO));
         if (document.getUndergradUniv() != null) {
             luceneDocument.add(new TextField("undergradUniv", document.getUndergradUniv(), Field.Store.NO));
         }

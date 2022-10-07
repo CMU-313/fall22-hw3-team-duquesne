@@ -167,8 +167,8 @@ public class DocumentResource extends BaseResource {
             
         JsonObjectBuilder document = Json.createObjectBuilder()
                 .add("id", documentDto.getId())
-                .add("applicant", documentDto.getName())
-                .add("additional_notes", JsonUtil.nullable(documentDto.getAdditionalNotes()))
+                .add("title", documentDto.getTitle())
+                .add("description", JsonUtil.nullable(documentDto.getDescription()))
                 .add("create_date", documentDto.getCreateTimestamp())
                 .add("update_date", documentDto.getUpdateTimestamp())
                 .add("language", documentDto.getLanguage())
@@ -348,7 +348,7 @@ public class DocumentResource extends BaseResource {
 
         return Response.ok(stream)
                 .header("Content-Type", MimeType.APPLICATION_PDF)
-                .header("Content-Disposition", "inline; filename=\"" + documentDto.getName() + ".pdf\"")
+                .header("Content-Disposition", "inline; filename=\"" + documentDto.getTitle() + ".pdf\"")
                 .build();
     }
     
@@ -455,8 +455,8 @@ public class DocumentResource extends BaseResource {
                     .add("id", documentDto.getId())
                     .add("highlight", JsonUtil.nullable(documentDto.getHighlight()))
                     .add("file_id", JsonUtil.nullable(documentDto.getFileId()))
-                    .add("name", documentDto.getName())
-                    .add("additional_notes", JsonUtil.nullable(documentDto.getAdditionalNotes()))
+                    .add("title", documentDto.getTitle())
+                    .add("description", JsonUtil.nullable(documentDto.getDescription()))
                     .add("create_date", documentDto.getApplicationDate())
                     .add("update_date", documentDto.getUpdateTimestamp())
                     .add("language", documentDto.getLanguage())
@@ -699,34 +699,31 @@ public class DocumentResource extends BaseResource {
      *
      * @param title Title
      * @param description Description
-     * @param subject Subject
-     * @param identifier Identifier
-     * @param publisher Publisher
-     * @param format Format
-     * @param source Source
-     * @param type Type
-     * @param coverage Coverage
-     * @param rights Rights
-     * @param tagList Tags
-     * @param relationList Relations
-     * @param metadataIdList Metadata ID list
-     * @param metadataValueList Metadata value list
-     * @param language Language
-     * @param createDateStr Creation date
+     * @param gender 
+     * @param race Publisher
+     * @param email Format
+     * @param creation_dateStr Source
+     * @param desired_program Coverage
+     * @param undergrad_univ Rights
+     * @param major Relations
+     * @param minor Metadata ID list
+     * @param gpa Metadata value list
+     * @param mcat Language
+     * @param lsat Creation date
+     * @param gre Creation date
+     * @param mcat Creation date
+     * @param language Creation date
      * @return Response
      */
     @PUT
     public Response add(
-             @FormParam("applicant") String applicant,
-            @FormParam("additional_notes") String additional_notes,
+             @FormParam("title") String title,
+            @FormParam("description") String description,
             @FormParam("gender") String gender,
             @FormParam("state") String state,
-            @FormParam("country") String country,
             @FormParam("race") String race,
             @FormParam("email") String email, 
             @FormParam("creation_Date") Date creation_dateStr,
-            @FormParam("resume") Document resume,
-            @FormParam("tags") List<String> tagList,
             @FormParam("desired_program") String desired_program,
             @FormParam("undergrad_univ")String undergrad_univ,
             @FormParam("major") String major,
@@ -742,12 +739,11 @@ public class DocumentResource extends BaseResource {
         }
         
         // Validate input data
-        applicant = ValidationUtil.validateLength(applicant, "applicant", 1, 100, false);
+        title = ValidationUtil.validateLength(title, "title", 1, 100, false);
         language = ValidationUtil.validateLength(language, "language", 3, 7, false);
-        additional_notes = ValidationUtil.validateLength(additional_notes, "additional_notes", 0, 4000, true);
+        description = ValidationUtil.validateLength(description, "description", 0, 4000, true);
         gender = ValidationUtil.validateLength(gender, "gender", 0, 500, true);
         state = ValidationUtil.validateLength(state, "state", 0, 500, true);
-        country = ValidationUtil.validateLength(country, "country", 0, 500, true);
         race = ValidationUtil.validateLength(race, "race", 0, 500, true);
         desired_program = ValidationUtil.validateLength(desired_program, "desired_program", 0, 100, true);
         undergrad_univ = ValidationUtil.validateLength(undergrad_univ, "undergrad_univ", 0, 100, true);
@@ -759,14 +755,11 @@ public class DocumentResource extends BaseResource {
         // Create the document
         Document document = new Document();
         document.setUserId(principal.getId());
-        document.setName(applicant);
-        document.setAdditionalNotes(additional_notes);
+        document.setTitle(title);
+        document.setDescription(description);
         document.setGender(gender);
-        document.setCountry(country);
         document.setRace(race);
         document.setEmail(email);
-        document.setResume(resume);
-        document.setGradMajor(desired_program);
         document.setUndergradUniv(undergrad_univ);
         document.setMinor(minor);
         document.setGPA(gpa);
@@ -774,7 +767,6 @@ public class DocumentResource extends BaseResource {
         document.setLSAT(lsat);
         document.setGRE(gre);
         document.setGMAT(gmat);
-        document.setTags(tagList);
         if (creation_dateStr == null) {
             document.setApplicationDate(new Date());
         } else {
@@ -789,8 +781,6 @@ public class DocumentResource extends BaseResource {
         // Save the document, create the base ACLs
         document = DocumentUtil.createDocument(document, principal.getId());
 
-        // Update tags
-        updateTagList(document.getId(), tagList);
 
         // Update relations
 
@@ -835,24 +825,21 @@ public class DocumentResource extends BaseResource {
      * @apiPermission user
      * @apiVersion 1.5.0
      *
-     * @param applicant Title
-     * @param additional_notes Description
+     * @param title Title
+     * @param description Description
      * @return Response
      */
     @POST
     @Path("{id: [a-z0-9\\-]+}")
     public Response update(
             @PathParam("id") String id,
-            @FormParam("applicant") String applicant,
-            @FormParam("additional_notes") String additional_notes,
+            @FormParam("title") String title,
+            @FormParam("description") String description,
             @FormParam("gender") String gender,
             @FormParam("state") String state,
-            @FormParam("country") String country,
             @FormParam("race") String race,
             @FormParam("email") String email, 
             @FormParam("creation_Date") String creation_dateStr,
-            @FormParam("resume") Document resume,
-            @FormParam("tags") List<String> tagList,
             @FormParam("desired_program") String desired_program,
             @FormParam("undergrad_univ")String undergrad_univ,
             @FormParam("major") String major,
@@ -868,12 +855,11 @@ public class DocumentResource extends BaseResource {
         }
         
         // Validate input data
-        applicant = ValidationUtil.validateLength(applicant, "applicant", 1, 100, false);
+        title = ValidationUtil.validateLength(title, "title", 1, 100, false);
         language = ValidationUtil.validateLength(language, "language", 3, 7, false);
-        additional_notes = ValidationUtil.validateLength(additional_notes, "additional_notes", 0, 4000, true);
+        description = ValidationUtil.validateLength(description, "description", 0, 4000, true);
         gender = ValidationUtil.validateLength(gender, "gender", 0, 500, true);
         state = ValidationUtil.validateLength(state, "state", 0, 500, true);
-        country = ValidationUtil.validateLength(country, "country", 0, 500, true);
         race = ValidationUtil.validateLength(race, "race", 0, 500, true);
         desired_program = ValidationUtil.validateLength(desired_program, "desired_program", 0, 100, true);
         undergrad_univ = ValidationUtil.validateLength(undergrad_univ, "undergrad_univ", 0, 100, true);
@@ -896,20 +882,15 @@ public class DocumentResource extends BaseResource {
         }
         
         // Update the document
-        document.setName(applicant);
-        document.setAdditionalNotes(additional_notes);
+        document.setTitle(title);
+        document.setDescription(description);
         document.setGender(gender);
-        document.setCountry(country);
         document.setRace(race);
         document.setEmail(email);
-        document.setResume(resume);
-        document.setTags(tagList);
         document.setApplicationDate(new Date());
         
         documentDao.update(document, principal.getId());
         
-        // Update tags
-        updateTagList(id, tagList);
         
 
         // Update custom metadata
@@ -981,11 +962,11 @@ public class DocumentResource extends BaseResource {
         Document document = new Document();
         document.setUserId(principal.getId());
         if (mailContent.getSubject() == null) {
-            document.setName("Imported email from EML file");
+            document.setTitle("Imported email from EML file");
         } else {
-            document.setName(StringUtils.abbreviate(mailContent.getSubject(), 100));
+            document.setTitle(StringUtils.abbreviate(mailContent.getSubject(), 100));
         }
-        document.setAdditionalNotes(StringUtils.abbreviate(mailContent.getMessage(), 4000));
+        document.setDescription(StringUtils.abbreviate(mailContent.getMessage(), 4000));
         document.setLanguage(ConfigUtil.getConfigStringValue(ConfigType.DEFAULT_LANGUAGE));
         if (mailContent.getDate() == null) {
             document.setApplicationDate(new Date());

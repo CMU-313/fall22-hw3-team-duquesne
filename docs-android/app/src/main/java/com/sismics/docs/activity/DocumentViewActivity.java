@@ -158,7 +158,6 @@ public class DocumentViewActivity extends AppCompatActivity {
         String description = document.optString("description");
         boolean shared = document.optBoolean("shared");
         String language = document.optString("language");
-        JSONArray tags = document.optJSONArray("tags");
 
         // Setup the title
         setTitle(title);

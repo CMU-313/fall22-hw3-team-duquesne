@@ -64,12 +64,12 @@ public class PdfUtil {
                 doc.addPage(page);
                 try (PdfPage pdfPage = new PdfPage(doc, page, margin * Constants.MM_PER_INCH, DocsPDType1Font.HELVETICA, 12)) {
                     SimpleDateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
-                    pdfPage.addText(documentDto.getName(), true, DocsPDType1Font.HELVETICA_BOLD, 16)
+                    pdfPage.addText(documentDto.getTitle(), true, DocsPDType1Font.HELVETICA_BOLD, 16)
                         .newLine()
                         .addText("Created by " + documentDto.getCreator()
                             + " on " + dateFormat.format(new Date(documentDto.getCreateTimestamp())), true)
                         .newLine()
-                        .addText(documentDto.getAdditionalNotes())
+                        .addText(documentDto.getDescription())
                         .newLine();
                     pdfPage.addText("Language: " + documentDto.getLanguage())
                         .newLine()

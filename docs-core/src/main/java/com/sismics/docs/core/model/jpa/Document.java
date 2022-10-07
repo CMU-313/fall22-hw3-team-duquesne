@@ -27,14 +27,8 @@ public class Document implements Loggable {
     /**
      * User ID.
      */
-    @Column(name = "DOC_IDUSER_C", nullable = false, length = 36)
+    @Column(name = "DOC_IDUSER_C")
     private String userId;
-
-     /**
-     * document.
-     */
-    @Column(name = "DOC_DOCUMENT_C", nullable = false, length = 36)
-    private Date document;
     
     /**
      * Main file ID.
@@ -45,25 +39,25 @@ public class Document implements Loggable {
     /**
      * Language (ISO 639-9).
      */
-    @Column(name = "DOC_LANGUAGE_C", nullable = false, length = 3)
+    @Column(name = "DOC_LANGUAGE_C")
     private String language;
 
     /** 
      * Name
      */
-    @Column(name = "DOC_NAME_C", nullable = false, length = 100)
-    private String applicant; 
+    @Column(name = "DOC_TITLE_C")
+    private String title; 
     
     /**
      * Additional notes.
      */
-    @Column(name = "DOC_ADDITIONAL_NOTES_C", length = 4000)
-    private String additionalNotes;
+    @Column(name = "DOC_DESCRIPTION_C", length = 4000)
+    private String description;
 
     /**
      * Creation date.
      */
-    @Column(name = "DOC_UPDATEDATE_D", nullable = false)
+    @Column(name = "DOC_UPDATEDATE_D")
     private Date updateDate;
 
     /**
@@ -79,12 +73,6 @@ public class Document implements Loggable {
     private String gender; 
 
     /**
-     * Country. 
-     */
-    @Column(name = "DOC_COUNTRY_C", length = 100)
-    private String country; 
-
-    /**
      * Race. 
      */
     @Column(name = "DOC_RACE_C", length = 100)
@@ -93,43 +81,26 @@ public class Document implements Loggable {
     /**
      * Email 
      */
-    @Column(name = "DOC_EMAIL_C", nullable = false, length = 100)
+    @Column(name = "DOC_EMAIL_C")
     private String email;
 
     /**
     * Application Date.
     */
-    @Column(name = "DOC_APPLICATION_DATE_D", nullable = false, length = 100)
+    @Column(name = "DOC_CREATEDATE_D", length = 100)
     private Date creation_date; 
 
-    /**
-    * Resume.
-    */
-    @Column(name = "DOC_RESUME_C", nullable = false, length = 100)
-    private Document resume; 
-
-    /**
-     * Tags. 
-     */
-    @Column(name = "DOC_TAGS_C", length = 100)
-    private List<String> tags; 
-
-    /**
-     * Major. 
-     */
-    @Column(name = "DOC_GRADMAJOR_C", nullable = false, length = 100)
-    private String desired_program; 
 
     /**
      * Undergraduate university. 
      */
-    @Column(name = "DOC_UNDERGRAD_UNIV_C", nullable = false, length = 100)
+    @Column(name = "DOC_UNDERGRAD_UNIV_C", length = 100)
     private String undergrad_univ; 
 
     /**
      * Major. 
      */
-    @Column(name = "DOC_MAJOR_C", nullable = false, length = 100)
+    @Column(name = "DOC_MAJOR_C", length = 100)
     private String major; 
 
     /**
@@ -200,21 +171,21 @@ public class Document implements Loggable {
         return this;
     }
 
-    public String getName() {
-        return applicant;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String applicant) {
-        this.applicant = applicant;
+    public void setTitle(String title) {
+        this.title = title;
 
     }
 
-    public String getAdditionalNotes() {
-        return additionalNotes;
+    public String getDescription() {
+        return description;
     }
 
-    public void setAdditionalNotes(String additionalNotes) {
-        this.additionalNotes = additionalNotes;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
     public String getGender() {
@@ -225,13 +196,6 @@ public class Document implements Loggable {
         this.gender = gender; 
     }
 
-    public String getCountry() {
-        return country; 
-    }
-
-    public void setCountry(String country) {
-        this.country = country; 
-    }
 
     public String getRace() {
         return race; 
@@ -255,30 +219,6 @@ public class Document implements Loggable {
 
     public Date getApplicationDate() {
         return creation_date; 
-    }
-
-    public Document getResume() {
-        return resume;
-    }
-
-    public void setResume(Document resume) {
-        this.resume = resume; 
-    }
-
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
-
-    public String getGradMajor() {
-        return desired_program; 
-    }
-
-    public void setGradMajor(String desired_program) {
-        this.desired_program = desired_program; 
     }
 
     public String getUndergradUniv() {
@@ -379,14 +319,6 @@ public class Document implements Loggable {
         this.updateDate = updateDate;
     }
 
-    public Date getDocument() {
-        return document;
-    }
-
-    public void setDocument(Date document) {
-        this.document = document;
-    }
-
     @Override
     public String toString() {
         return MoreObjects.toStringHelper(this)
@@ -396,6 +328,6 @@ public class Document implements Loggable {
 
     @Override
     public String toMessage() {
-        return applicant;
+        return title;
     }
 }

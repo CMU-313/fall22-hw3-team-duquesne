@@ -223,8 +223,8 @@ public class InboxService extends AbstractScheduledService {
         }
 
         document.setUserId("admin");
-        document.setName(StringUtils.abbreviate(subject, 100));
-        document.setAdditionalNotes(StringUtils.abbreviate(mailContent.getMessage(), 4000));
+        document.setTitle(StringUtils.abbreviate(subject, 100));
+        document.setDescription(StringUtils.abbreviate(mailContent.getMessage(), 4000));
         document.setLanguage(ConfigUtil.getConfigStringValue(ConfigType.DEFAULT_LANGUAGE));
         if (mailContent.getDate() == null) {
             document.setApplicationDate(new Date());

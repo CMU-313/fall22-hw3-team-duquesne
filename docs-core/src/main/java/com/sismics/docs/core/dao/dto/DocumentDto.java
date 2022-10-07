@@ -21,12 +21,12 @@ public class DocumentDto {
     /**
      * Student.
      */
-    private String applicant;
+    private String title;
     
     /**
      * AdditionalNotes.
      */
-    private String additional_notes;
+    private String description;
     
     
     /**
@@ -109,25 +109,11 @@ public class DocumentDto {
      */
     private String email;
 
-    /**
-     * Resume.
-     */
-    private DocumentDto resume;
 
     /**
      * Application date.
      */
     private String creation_date;
-
-    /**
-     * gradMajor.
-     */
-    private String desired_program;
-
-    /**
-     * Tags.
-     */
-    private List<String> tags;
 
     /**
      * Unergraduate university.
@@ -187,12 +173,12 @@ public class DocumentDto {
         return this;
     }
 
-    public String getName() {
-        return applicant;
+    public String getTitle() {
+        return title;
     }
 
-    public void setName(String applicant) {
-        this.applicant = applicant;
+    public void setTitle(String title) {
+        this.title = title;
     }
 
 
@@ -202,15 +188,6 @@ public class DocumentDto {
 
     public void setEmail(String email) {
         this.email = email;
-    }
-
-
-    public DocumentDto getResume() {
-        return resume;
-    }
-
-    public void setResume(DocumentDto resume) {
-        this.resume = resume;
     }
 
     public String getIdentifier() {
@@ -253,21 +230,14 @@ public class DocumentDto {
         this.language = language;
     }
 
-     public String getAdditionalNotes() {
-        return additional_notes;
+     public String getDescription() {
+        return description;
     }
 
-    public void setAdditionalNotes(String additional_notes) {
-        this.additional_notes = additional_notes;
+    public void setDescription(String description) {
+        this.description = description;
     }
 
-    public List<String> getTags() {
-        return tags;
-    }
-
-    public void setTags(List<String> tags) {
-        this.tags = tags;
-    }
     public String getGender() {
         return gender;
     }
@@ -301,16 +271,8 @@ public class DocumentDto {
         this.race = race; 
     }
 
-    public String getGradMajor() {
-        return desired_program; 
-    }
-
     public Integer getGMAT() {
         return gmat;
-    }
-
-    public void setGradMajor(String desired_program) {
-        this.desired_program = desired_program; 
     }
 
     public String getUndergradUniv() {
