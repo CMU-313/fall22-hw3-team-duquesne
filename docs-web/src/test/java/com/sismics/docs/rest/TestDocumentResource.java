@@ -101,8 +101,8 @@ public class TestDocumentResource extends BaseJerseyTest {
                 .request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .get(JsonObject.class);
-        documents = json.getJsonArray("documents");
-        Assert.assertEqual(1, documents.size());
+        JsonArray documents = json.getJsonArray("documents");
+        Assert.assertEquals(1, documents.size());
 
         //Case2: GPA not a number and not NA
         // Create document 2 (Test invalid student creation)
@@ -123,7 +123,7 @@ public class TestDocumentResource extends BaseJerseyTest {
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .get(JsonObject.class);
         documents = json.getJsonArray("documents");
-        Assert.assertEqual(1, documents.size());
+        Assert.assertEquals(1, documents.size());
 
         // Create an entry for student 2 (added to test search)
         create2Date = new Date().getTime();
@@ -154,7 +154,7 @@ public class TestDocumentResource extends BaseJerseyTest {
                 .request()
                 .cookie(TokenBasedSecurityFilter.COOKIE_NAME, document1Token)
                 .get(JsonObject.class);
-        JsonArray documents = json.getJsonArray("documents");
+        documents = json.getJsonArray("documents");
         JsonArray tags = documents.getJsonObject(0).getJsonArray("tags");
         Assert.assertEquals(1, documents.size());
         Assert.assertNotNull(documents.getJsonObject(0).get("update_date"));
